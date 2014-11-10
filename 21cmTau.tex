@@ -1,0 +1,92 @@
+
+% DEFINE SOME HANDY SYMBOLS:
+%\simlt and \simgt produce > and < signs with twiddle underneath
+\def\spose#1{\hbox to 0pt{#1\hss}}
+\def\simlt{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
+     \raise 2.0pt\hbox{$\mathchar"13C$}}}
+\def\simgt{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
+     \raise 2.0pt\hbox{$\mathchar"13E$}}}
+%\simpropto produces \propto with twiddle underneath
+\def\simpropto{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
+     \raise 2.0pt\hbox{$\propto$}}}
+
+
+\documentclass[twocolumn,aps,prd,nofootinbib,showpacs]{revtex4-1}
+\usepackage{amsmath,graphicx,bm,color}
+\begin{document}
+\title{Optical Depth from $21\,\textrm{cm}$}
+
+
+\date{\today}
+
+
+
+\pacs{95.75.-z,98.80.-k,95.75.Pq,98.80.Es}
+
+
+\begin{abstract}
+
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\begin{itemize}
+\item Reionization is not only an interesting epoch to study in its own right, but also because itÕs a nuisance for the CMB.  If we can understand reionization, we can predict $\tau_{CMB}$.  We can then send our prediction to our CMB friends so that they no longer have to marginalize over it.  In turn, that gives us better cosmological constraints on the other parameters.  This paper is timely because we have next-generation instruments (like HERA!) coming online.
+\end{itemize}
+
+\section{Tau Predictions}
+\begin{itemize}
+\item What does it take to predict tau? Emphasize the point that Jonathan made: it's the density-weighted ionization fraction that counts. So it's more complicated than just integrating an ionization history. Perhaps this would be a good place to add Jonathan's nice plots from global inside-out, outside-in, local... etc.?
+\end{itemize}
+\subsection{Tau predictions from power spectrum measurements}
+\begin{itemize}
+\item Power spectrum measurements are a rather poor way of doing it, but they're the most promising short-term observable. So we're choosing to take a look at it, even though it's quite model dependent. It'll essentially require tying the measurements to simulations. We assume that large qualitative changes to reionization physics have already been ruled out in an earlier model selection step.
+\item Talk about the models and why it's ok to ignore spin temperature (basically ionization frac is too low when spin temperature effects are important)
+\item Point out the interesting feature where the degeneracies in 21cm don't compromise our ability to predict tau.
+\item Show $\tau$ predictions for both a WMAP-style redshift and a (probably lower tau) Planck redshift.
+\end{itemize}
+\subsection{Tau predictions from global signal measurements}
+\begin{itemize}
+\item Show that global signal measurements can get to precisely the quantity we need.
+\item Some forecasts as a function of foreground subtraction.
+\subsection{Tau predictions from imaging experiments}
+\item As far as predicting tau is concerned, an imaging experiment is just a very high signal-to-noise global signal experiment.
+\item However, one must be careful because an interferometer does not measure the zero-mode spatially. Need to rely on the assumption that at the relevant redshifts, we are in emission, so the brightness temperature is greater than or equal to zero. This lets us recover the zero-point.
+\item Perform thermal noise calculation.
+\item Give tau predictions
+\end{itemize}
+\subsection{Summary of tau predictions}
+\begin{itemize}
+\item Provide a table summarizing values.
+\end{itemize}
+
+\section{Improvements in the CMB}
+\subsection{General improvements}
+\begin{itemize}
+\item Talk about general improvements across a whole wide range of cosmological parameters.
+\end{itemize}
+\subsection{Important degeneracy breaking}
+Highlight some specific examples.
+\begin{itemize}
+\item How might it be helpful to no longer have the $A_s$ and $\tau$ degeneracy?
+\item What about B-modes? Reionization bump predictions need $\tau$, so consistency tests are helped by 21cm. Also discuss Mortonson \& Hu (2008) and how inflationary parameters are biased if reionization not modeled correctly.
+\end{itemize}
+
+\section{Predictions for $x_{HI}$}
+Mention how even thought it's not $x_{HI}$ that's directly relevant for $\tau$, the same measurements mentioned earlier might provide a way to probe the ionized fraction (particularly the power spectrum measurements).
+\begin{itemize}
+\item Show some projections for $x_{HI}$.
+\item Talk about how this can be very complementary to optical/IR measurements.
+\end{itemize}
+
+\section{Conclusions}
+Summarize our main points.
+
+\section*{Acknowledgments}
+
+
+\bibliography{21cmTau}
+
+
+\end{document}
