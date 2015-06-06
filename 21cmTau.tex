@@ -48,7 +48,7 @@ Roughly speaking, we envision a multi-stage process for using $21\,\textrm{cm}$ 
 \subsection{Tau predictions from power spectrum measurements}
 \begin{itemize}
 \item Power spectrum measurements are a rather poor way of doing it, but they're the most promising short-term observable. So we're choosing to take a look at it, even though it's quite model dependent. It'll essentially require tying the measurements to simulations. We assume that large qualitative changes to reionization physics have already been ruled out in an earlier model selection step.
-\item Talk about the models and why it's ok to ignore spin temperature (basically ionization frac is too low when spin temperature effects are important)
+\item Talk about the models and why it's ok to ignore spin temperature (basically ionization frac is too low when spin temperature effects are important). But maybe we should quantify this a little.
 \item Point out the interesting feature where the degeneracies in 21cm don't compromise our ability to predict tau.
 
 Of course, no probe of reionization is perfect, and any practical measurement will come with its attendant errors and degeneracies. For example, in \acl{Cite Jonnie and Grieg \& Mesinger} it was shown that except in the extremely high signal-to-noise regime, fits to theoretical model parameters from $21\,\textrm{cm}$ power spectrum measurements are prone to strong degeneracies if performed at a single redshift. Multi-redshift observations break these degeneracies to a great extent, enabling for instance $\sim 10\%$ level constraints \acl{Check numbers} from upcoming instruments like HERA. However, some degeneracy will remain, as evidenced by the elliptical contours shown in Figure \ref{fig:21cmDegen_wTau}, which show some example $68\%$ and $95\%$ confidence regions on $T_\textrm{vir}$ and $\zeta$ constraints. These are derived from Fisher matrix forecasts assuming multi-redshift power spectrum measurements performed by HERA \acl{Specify a lot more what went into this calculation, especially regarding foregrounds}. There is clearly a degeneracy that persists between the two parameter.
@@ -68,34 +68,55 @@ Fortunately, these residual degeneracies have relatively impact on one's ability
 \subsection{Tau predictions from global signal measurements}
 \begin{itemize}
 \item Show that global signal measurements can get to precisely the quantity we need. But we need to limit the number of degrees of freedom in our fits in order for it to work.
-\item Some forecasts as a function of foreground subtraction.
+\item Power spectrum measurements can help to provide a basis for global signal measurements. Show PCA modes for deviations from fiducial signal.
+
+\begin{figure}[!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/sampled_Tb_cutoff.png}
+	\caption{asdf}
+	\label{fig:sampled_Tb_cutoff}
+\end{figure}
+
+\begin{figure}[!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/PCA_cutoff.png}
+	\caption{asdf}
+	\label{fig:PCA_cutoff}
+\end{figure}
+
+
+\begin{figure}[!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/Tb_global_errors.png}
+	\caption{asdf}
+	\label{fig:Tb_global_errors}
+\end{figure}
+
+\item Some forecasts for constraining these deviation modes. Show different foreground subtraction scenarios.
 \item Point out the fact that by making a direct measurement, we avoid the problem of cosmic variance, since we're essentially measuring ``our" tau, in our branch of the multiverse.
-\subsection{Tau predictions from imaging experiments}
-\item As far as predicting tau is concerned, an imaging experiment is just a very high signal-to-noise global signal experiment.
-\item However, one must be careful because an interferometer does not measure the zero-mode spatially. Need to rely on the assumption that at the relevant redshifts, we are in emission, so the brightness temperature is greater than or equal to zero. This lets us recover the zero-point.
-\item Perform thermal noise calculation.
-\item Give tau predictions
 \end{itemize}
+%\subsection{Tau predictions from imaging experiments}
+%\item As far as predicting tau is concerned, an imaging experiment is just a very high signal-to-noise global signal experiment.
+%\item However, one must be careful because an interferometer does not measure the zero-mode spatially. Need to rely on the assumption that at the relevant redshifts, we are in emission, so the brightness temperature is greater than or equal to zero. This lets us recover the zero-point.
+%\item Perform thermal noise calculation.
+%\item Give tau predictions
+%\end{itemize}
 \subsection{Summary of tau predictions}
 \begin{itemize}
 \item Provide a table summarizing values.
 \end{itemize}
 
 \section{Improvements in the CMB}
-\subsection{General improvements}
-\begin{itemize}
-\item Talk about general improvements across a whole wide range of cosmological parameters.
-\end{itemize}
-\subsection{Important degeneracy breaking}
+\subsection{Degeneracy breaking}
 Highlight some specific examples.
 \begin{itemize}
 \item How might it be helpful to no longer have the $A_s$ and $\tau$ degeneracy?
 
 \begin{figure}[!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/AsTauOnly_w21cm.png}
+	\includegraphics[width=0.5\textwidth]{figures/AsTau_w21cm.png}
 	\caption{asdf}
-	\label{fig:AsTauOnly_w21cm}
+	\label{fig:AsTau_w21cm}
 \end{figure}
 
 \item What about B-modes? Reionization bump predictions need $\tau$, so consistency tests are helped by 21cm. Also discuss Mortonson \& Hu (2008) and how inflationary parameters are biased if reionization not modeled correctly.
