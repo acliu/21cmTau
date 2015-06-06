@@ -1,0 +1,8 @@
+*~
+*.aux
+*.bbl
+*.log
+*.blg
+*.pyc
+*-eps-converted-to.pdf
+*.synctex.gz
