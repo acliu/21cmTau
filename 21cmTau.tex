@@ -1,15 +1,5 @@
 
-% DEFINE SOME HANDY SYMBOLS:
-%\simlt and \simgt produce > and < signs with twiddle underneath
-\def\spose#1{\hbox to 0pt{#1\hss}}
-\def\simlt{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
-     \raise 2.0pt\hbox{$\mathchar"13C$}}}
-\def\simgt{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
-     \raise 2.0pt\hbox{$\mathchar"13E$}}}
-%\simpropto produces \propto with twiddle underneath
-\def\simpropto{\mathrel{\spose{\lower 3pt\hbox{$\mathchar"218$}}
-     \raise 2.0pt\hbox{$\propto$}}}
-\def\tauc{\tau_\textrm{CMB}}
+
 
 \newcommand{\acl}[1]{{\color{red} \textbf{[ACL:  #1]}}}
 \newcommand{\jrp}[1]{{\color{blue} \textbf{[JRP:  #1]}}}
@@ -17,8 +7,26 @@
 \documentclass[twocolumn,aps,prd,nofootinbib,showpacs]{revtex4-1}
 \usepackage{amsmath,graphicx,bm,color}
 \begin{document}
-\title{Optical Depth from $21\,\textrm{cm}$}
+\title{Eliminating the optical depth nuisance from the CMB with $21\,\textrm{cm}$ cosmology}
 
+
+\author{Adrian Liu}
+\email{acliu@berkeley.edu}
+\email{Hubble Fellow}
+\affiliation{Department of Astronomy, UC Berkeley, Berkeley, CA 94720, USA}
+\affiliation{Berkeley Center for Cosmological Physics, UC Berkeley, Berkeley, CA 94720, USA}
+
+\author{Jonathan R. Pritchard}
+\affiliation{Imperial Center for Inference and Cosmology, Imperial College London, Blackett Laboratory, Prince Consort Road, London SW7 2AZ, United Kingdom}
+
+\author{Aaron R. Parsons}
+\affiliation{Department of Astronomy, UC Berkeley, Berkeley, CA 94720, USA}
+\affiliation{Radio Astronomy Laboratory, UC Berkeley, Berkeley, CA 94720, USA}
+
+\author{Uro\v{s} Seljak}
+\affiliation{Department of Astronomy, UC Berkeley, Berkeley, CA 94720, USA}
+\affiliation{Department of Physics, UC Berkeley, Berkeley, CA 94720, USA}
+\affiliation{Berkeley Center for Cosmological Physics, UC Berkeley, Berkeley, CA 94720, USA}
 
 \date{\today}
 
@@ -28,36 +36,61 @@
 
 
 \begin{abstract}
-
+Amongst the standard model parameters that are typically used to fit cosmic microwave background (CMB) observations, the optical depth $\tau$ stands out as a nuisance parameter. While $\tau$ provides some crude limits on reionization, it also degrades constraints on other cosmological parameters. Here we explore how $21\,\textrm{cm}$ cosmology---as a direct probe of reionization---can be used to independently predict $\tau$ in an effort to improve CMB parameter constraints. We develop two complementary schemes for doing so. The first uses $21\,\textrm{cm}$ power spectrum observations in conjunction with semi-analytic simulations to predict $\tau$. The other uses global $21\,\textrm{cm}$ measurements to directly constrain low redshift contributions to $\tau$, but does so in a relatively model-independent way. Forecasting the performance of the upcoming Hydrogen Epoch of Reionization Array, we find that the marginalized $68\%$ confidence limit on $\tau$ can be reduced to $\pm 0.0046$ for a reionization scenario tuned to fit \emph{Planck's} TT+lowP dataset, and to $\pm 0015$ for \emph{Planck's} TT,TE,EE+lowP+lensing+ext dataset. These results are particularly effective at breaking the CMB degeneracy between $\tau$ and the amplitude of the primordial fluctuation spectrum $A_s$, with errors on $\ln (10^{10} A_s)$ reduced by almost a factor of four for both datasets. Observations of the $21\,\textrm{cm}$ line are therefore capable of improving not only our understanding of reionization astrophysics, but also of cosmology in general, and may shed light on current tensions such as those between galaxy cluster counts and the CMB.
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
-\begin{itemize}
-\item Reionization is not only an interesting epoch to study in its own right, but also because it's a nuisance for the CMB.  If we can understand reionization, we can predict $\tau_{CMB}$.  We can then send our prediction to our CMB friends so that they no longer have to marginalize over it.  In turn, that gives us better cosmological constraints on the other parameters.  This paper is timely because we have next-generation instruments (like HERA!) coming online.
-\end{itemize}
+Through a complementary blend of cosmological probes, the last decade has seen the emergence and strengthening of a concordance $\Lambda$CDM model of our Universe. Using just a handful of parameters, the $\Lambda$CDM model provides an adequate fit to data from a wide range of epochs in our cosmic timeline, ranging from Big Bang Nucleosynthesis (BBN) to the Cosmic Microwave Background (CMB) to galaxy surveys and supernovae measurements.
 
-\begin{equation}
-\tau = \int  \sigma_T \langle x_e (z) n_\textrm{HI} (z) \rangle dl.
-\end{equation}
+Examined in more detail, however, tensions have emerged between various datasets. Consider the latest CMB results from the \emph{Planck} satellite, for instance. Distance measures inferred from \emph{Planck} are in mild tension with Lyman-$\alpha$ baryon acoustic oscillation (BAO) constraints derived from quasar observations. As another example, \emph{Planck} data is best fit by a higher amplitude of density fluctuations than is preferred by measurements of weak lensing and galaxy cluster counts. While currently still tolerable, these tensions may be the result of experimental systematics, or may be the first sign of new physics. 
 
-\begin{equation}
-\delta T_{b} \approx T_{b0} ( 1 - x_\textrm{HII} ) (1 + \delta)
-\end{equation}
+To make progress, it will be necessary to sharpen our cosmological constraints. In doing so, the hint of inconsistencies between data sets will either vanish or become statistically significant. One way to accomplish this is to simply take more data. Galaxy surveys, for instance, are poised to significantly improve their reach with new experiments such as the Dark Energy Spectroscopic Instrument \acl{Cite and probably name a few other new efforts}. With the CMB, on the other hand, it is likely that many improvements will come from exploiting qualitatively new probes, such as a measurement of the primordial B-mode signal, or better measurements of CMB lensing and secondary anisotropies. These have the ability to access previously unconstrained phenomena, as well as to break existing degeneracies between cosmological parameters.
 
-What are we going to do with the peculiar velocity term? (Also, I don't understand it).
+In this paper, we examine the role that the emerging field of $21\,\textrm{cm}$ cosmology can play in sharpening CMB constraints. With $21\,\textrm{cm}$ cosmology, one seeks to use the $21\,\textrm{cm}$ hyperfine transition to map the large scale distribution of neutral hydrogen at a variety of redshifts. Existing and upcoming efforts include lower redshift efforts ($z \lesssim 2$) to target baryon acoustic oscillations as well as higher redshift measurements that will provide a uniquely \emph{direct} probe of the intergalactic medium (IGM) during the reionization epoch, when radiation from the first galaxies systematically ionized the IGM. Examples of $21\,\textrm{cm}$ experiments include \acl{List a whole bunch of experiments}.
 
+Whereas reionization is the prime epoch of study for many $21\,\textrm{cm}$ experiments, it is often considered a nuisance for CMB studies. Reionization releases free electrons into the IGM, which can Compton scatter CMB photons as they stream from the surface of last scattering to our detectors, necessitating the introduction of an optical depth parameter $\tau$ that quantifies the probability of scattering. This scattering damps the measured CMB anisotropies, which unfortunately means that $\tau$ it is largely degenerate with $A_s$, the amplitude of primordial density fluctuations. The degeneracy is partially broken by CMB polarization measurements (which are sensitive to $\tau$ via scattering-induced polarization that arise during reionization) and CMB lensing (which provide an independent measurement of $A_s$), but the nuisance of $\tau$ remains to a large extent.
+
+In this paper, we show that $21\,\textrm{cm}$ cosmology experiments have the ability to place constraints on reionization that are stringent enough to allow high-precision determinations of $\tau$ that can then be fed into CMB studies, effectively eliminating $\tau$ as a nuisance parameter. The main effect of this is to reduce errors on $A_s$, which impacts CMB constraints in a number of ways. Improved estimates on $A_s$ will illuminate the tension (or lack thereof) between results from cluster counts and the CMB. Additionally, sharper constraints on $A_s$ will improve theoretical predictions for CMB lensing, enabling a further elimination of nuisance parameters.
+
+This work differs from \acl{talk about other papers on cosmological constraints. Also talk about timeliness with HERA coming on}. The rest of this paper is organized as follows. In Sec. \ref{sec:fidExpt} we introduce the fiducial experiments and models that we use for our forecasts. Sec. \ref{sec:Ingredients} discusses the various sources of uncertainty in a prediction of $\tau$. Sec. \ref{eq:Pkformalism} then establishes a formalism for folding $21\,\textrm{cm}$ power spectrum measurements into CMB analyses via $\tau$. Forecasted improvements on cosmological parameters based on this formalism are presented in Sec. \ref{sec:CMBresults}. In Sec. \ref{sec:GlobalSig} we explore how direct measurements of the $21\,\textrm{cm}$ brightness temperature field can reduce the model dependence of a $\tau$ prediction, and we summarize our conclusions in Sec. \ref{sec:conc}.
+
+\section{Fiducial experiments and assumptions}
+\label{sec:fidExpt}
+
+Throughout this paper, we will illustrate our framework for sharpening cosmological constraints by considering various fiducial experiments. From the $21\,\textrm{cm}$ side, we will consider two types of experiments. Sections \ref{eq:Pkformalism} and \ref{sec:CMBresults} concentrate on $21\,\textrm{cm}$ power spectrum experiments. These typically consist of low-frequency radio interferometers, which measure the redshifted brightness temperature contrast $\delta T_b (\mathbf{\hat{n}}, \nu)$ of the $21\,\textrm{cm}$ line against the CMB, where $\mathbf{\hat{n}}$ specifies the direction on the sky and $\nu$ is the observation frequency. Given the spectral nature of the probe, different frequencies can be translated into different radial distances, and the result is a three-dimensional brightness temperature distribution $\delta T_b (\mathbf{r})$ in terms of comoving coordinates $\mathbf{r}$. Fourier transforming and binning this distribution then allows a measurement of the brightness temperature power spectrum $P_\textrm{21} (k)$, defined by
 \begin{equation}
-\langle x_\textrm{HII} ( 1 + \delta) \rangle = \frac{\langle \delta T_b (z) \rangle - T_{b0}}{T_{b0}}
+\label{eq:PspecDef}
+\langle \delta \widetilde{T}_b(\mathbf{k}) \delta \widetilde{T}_b(\mathbf{k}^\prime)^* \rangle \equiv (2\pi)^3 \delta^D (\mathbf{k} - \mathbf{k}^\prime ) P_\textrm{21} (k),
 \end{equation}
+where $\delta^D$ signifies a Dirac delta function, pointed brackets $\langle \cdots \rangle$ represent an ensemble average, and $ \delta \widetilde{T}_b(\mathbf{k})$ is the Fourier transform of  $\delta T_b$ evaluated at spatial wavevector $\mathbf{k}$. Note that since the statistical properties of the brightness temperature evolve substantially as reionization progresses, one typically does not form a single power spectrum over the entire survey volume of a $21\,\textrm{cm}$ survey, as doing so would violate the central assumption of translation invariance necessary for forming a power spectrum. Instead, most analysts break up their wide bandwidth data into a few (relatively) narrow chunks and compute multiple power spectra $P_\textrm{21} (k,z)$ centered on several different redshifts \acl{Cite my own forthcoming paper}. Current instruments such as GMRT, MWA, LOFAR, and PAPER have begun to place scientifically interesting upper limits on such power spectra.
+
+As our fiducial $21\,\textrm{cm}$ power spectrum experiment, we pick HERA, a low-frequency radio interferometric array that is currently being constructed in the South African Karoo desert. HERA's construction plans involve an incremental buildup of a series of $14$-m diameter dishes, closely packed in a hexagonal configuration. In this paper, we assume that observations are made when the array consists of $331$ such dishes. These dishes are not steerable, and instead observe in a drift-scan mode. From HERA's location, this provides roughly $6\,\textrm{hours}$ of usable observation time per day, defined to be when the Galactic plane is sufficiently far below the horizon. We further assume $180\,\textrm{days}$ of observations, providing $1080\,\textrm{hours}$ of total observation time. This should, however, not be considered $1080\,\textrm{hours}$ of integration time in the conventional sense, since drift-scan observations are by definition distributed amongst different patches of the sky. The observation time is thus only coherently integrated for a portion of the this time, although all the data is eventually folded into a single final estimate of the power spectrum.\acl{Also mention frequency ranges here?}
+
+To forecast power spectrum sensitivities amidst such complications, we make use of the {\tt 21cmSense} code \acl{Cite Jonnie}. This code also takes into account the serious challenge of foreground contaminants in any highly redshifted $21\,\textrm{cm}$ observation. Foregrounds arise from sources such as Galactic synchrotron radiation, and are four to five orders stronger than the $21\,\textrm{cm}$ cosmological signal in brightness temperature. In this paper, we use the ``moderate foregrounds" setting of {\tt 21cmSense} to account for contamination. This makes the assumption that foregrounds are preferentially confined to certain regions of Fourier space. This confinement is most naturally expressed in terms of spatial Fourier wavenumbers for Fourier modes along the line-of-sight, $k_\parallel$, and wavenumbers for those perpendicular to the line-of-sight, $k_\perp$. Foreground contaminants are expected to appear mostly in modes that satisfy the condition 
 \begin{equation}
-\tau = \sigma_T (1 + f_\textrm{He}) \int dl \overline{n}_H (z) \frac{\langle \delta T_b (z) \rangle - T_{b0}}{T_{b0}}
+\label{eq:Wedge}
+k_\parallel < k_\parallel^0 + \frac{H_0 D_c \theta_0 \left[\Omega_m (1+z)^3 + \Omega_\Lambda\right]^\frac{1}{2}}{c (1+z)} k_\perp,
 \end{equation}
+where $c$ is the speed of light, $H_0$ is the Hubble parameter, $D_c$ is the comoving line-of-sight distance, $\Omega_m$ is the normalized matter density, $\Omega_\Lambda$ is the normalized dark energy density, $k_\parallel^0$ is some constant offset, and $\theta_0$ is a characteristic angular scale on the order of the instantaneous field-of-view of radio antennas. Detailed derivations of this formula may be found in, e.g., \acl{cite myself} but for the purposes of this paper, it is sufficient to simply understand the qualitative features of this condition, which are as follows. The foregrounds that plague $21\,\textrm{cm}$ experiments are generally expected to possess smooth spectra. Given that redshifted $21\,\textrm{cm}$ observations are mappings of a spectral line, the spectral axis maps to line-of-sight distance $r_\parallel$, and it follows that once they are Fourier transformed, spectrally smooth foregrounds should be seen only at $k_\parallel$ modes below some $k_\parallel^0$ that quantifies the degree of smoothness. However, this is complicated by the inherent chromaticity of interferometers, which may imprint extra spectral structure into the observations of foregrounds, and thus cause them to appear at higher $k_\parallel$. Such effects are particularly pronounced for the longer baselines of an interferometer, which are sensitive to finer spatial structures---higher $k_\perp$ modes---on the sky. This leads to the second term of Eq. \eqref{eq:Wedge}. On the ``moderate foregrounds" setting of the {\tt 21cmSense} code, modes satisfying Eq. \eqref{eq:Wedge} are assumed to be irrecoverably contaminated by foregrounds and are discarded. The power spectrum error bars in the other modes are calculated using the methods of \acl{Cite Parsons 2012a}, where standard formulae for interferometric noise are cast in a cosmological context. At the low frequencies relevant to $21\,\textrm{cm}$ experiments that target reionization, these errors are typically dominated by sky noise, although cosmic variance is also accounted for in {\tt 21cmSense}.
+
+The other category of $21\,\textrm{cm}$ experiments that we consider are known as global signal experiments. Here, the goal is to measure the angle-averaged brightness temperature $\overline{\delta T}_b(\nu)$ as a function of frequency (or equivalently, redshift). As a fiducial experiment, we will consider a single dipole observing the Northern Galactic Pole with a primary beam profile of the form
+\begin{equation}
+A(\theta, \varphi) = \exp \left( -\frac{1}{2} \frac{\theta^2}{\theta_b^2} \right) \cos \theta,
+\end{equation}
+where $\theta$ is the polar angle from zenith, $\varphi$ is the azimuthal angle, and $\theta_b$ is a characteristic primary beam width. We take $\theta_b$ to be $0.3\,\textrm{rad}$ at the lowest observation frequency (either $150\,\textrm{MHz}$ or $175\,\textrm{MHz}$ depending on the dataset) and inversely proportional to $\nu$ at other frequencies. Spectral foreground contamination is computed by mock observations of the Global Sky Model of \acl{cite}. Observational error bars are computed using the radiometer equation, where the noise temperature variance $\sigma^2$ is given by
+\begin{equation}
+\sigma^2 = \frac{2 T_\textrm{sys}^2}{t_\textrm{int} \Delta \nu},
+\end{equation}
+where $t_\textrm{int}$ is the integration time (set to $500\,\textrm{hours}$ for all global signal experiments considered in this paper), $\Delta \nu$ is the frequency channel width (set to $1\,\textrm{MHz}$, and $T_\textrm{sys}$ is the system temperature (set to be equal to the sky temperature for low-frequency, sky-noise dominated regime considered here). The factor of two arises from the squared nature of auto-correlation experiments like the single-dipole experiments considered here, where the variance goes as the four-point function of the (Gaussian-distributed) output voltages.
+
+For the CMB, we make use of publicly available data products from the \emph{Planck} satellite's $2015$ data release. We use only the best fit values for cosmological parameters and their accompanying covariance matrices, essentially approximating parameter uncertainties as being Gaussian, forgoing the also-publicly available non-Gaussian posterior distributions. This approximation is made to match the simplicity of the $21\,\textrm{cm}$ parameter estimates, which are based on the Fisher matrix formalism to avoid the computational expense of a full Bayesian treatment. Throughout the paper, we will focus on the ``TT+lowP" and the ``TT,TE,EE + lowP + lensing + ext" datasets from the \emph{Planck} 2015 data release \acl{cite}. These datasets bracket the range of uncertainties from the data release, with the TT+low dataset having relatively large errors by \emph{Planck} standards, while TT,TE,EE + lowP + lensing + ext has the tightest error bars. Conveniently, these datasets are also close to representing the extremes in terms of reionization scenarios allowed by CMB data. The TT+low dataset implies a relatively high redshift $z_\textrm{ion}$ for reionization ($z_\textrm{ion} \approx 9.9$, assuming a width $\Delta z_\textrm{ion} \sim 0.5$ in the ionization history), whereas TT,TE,EE + lowP + lensing + ext is best fit by a later reionization epoch ($z_\textrm{ion} \approx 8.8$). As was demonstrated in \acl{cite myself}, this can have a rather large impact on reionization constraints from $21\,\textrm{cm}$ measurements. In either case, HERA's broad frequency range (from $100$ to $200\,\textrm{MHz}$, with strong possibilities for extensions on either end of the spectrum) allows a precise determination of $\tau$ from $21\,\textrm{cm}$ data.
 
 \section{Ingredients for a precise prediction of $\tau$ }
+\label{sec:Ingredients}
 
-In practical terms, the optical depth $\tau$ is a nuisance parameter that is self-consistently fit for in CMB studies. While such an approach is attractive in that it does not require detailed models of reionization (or any other process that may produce free electrons), its downside is that one must simply accept any degeneracies in parameter fits. In particular, CMB experiments are much more sensitive to the overall combination of $A_s e^{-2\tau}$ than to $A_s$ or $\tau$ individually. To break such degeneracies, it is necessary to determine $\tau$ independently of the CMB data. Typically, this requires modeling the underlying astrophysics of reionization, and the goal in this section is to precisely describe the various quantities (both astrophysical and cosmological) that are needed for such modeling.
+In practical terms, the optical depth $\tau$ is a nuisance parameter that is self-consistently fit for in CMB studies. While such an approach is attractive in that it does not require detailed models of reionization (or any other process that may produce free electrons), its downside is that one must simply accept any degeneracies in parameter fits. In particular, CMB experiments are much more sensitive to the overall combination of $A_s e^{-2\tau}$ than to $A_s$ or $\tau$ individually. Our goal in this paper is to show how this degeneracy can be broken with the aid of $21\,\textrm{cm}$ data. Typically, this requires modeling the underlying astrophysics of reionization, and in this section we precisely describe the various quantities (both astrophysical and cosmological) that are needed for such modeling.
 
 The optical depth is given by
 \begin{equation}
@@ -69,11 +102,11 @@ where $\sigma_T$ is the Thomson cross-section, $\overline{n}_e$ is the free-elec
 &=& \overline{x_\textrm{HII} n_b} + \frac{1}{4}\overline{x_\textrm{HeIII} n_b}Y_p^\textrm{BBN} \nonumber \\
 &=& \overline{n}_b \left[  \overline{x_\textrm{HII} (1+\delta_b)} + \frac{1}{4}\overline{x_\textrm{HeIII} (1+\delta_b)} Y_p^\textrm{BBN} \right],
 \end{eqnarray}
-where $n_\textrm{H}$, $n_\textrm{He}$, and $n_b = n_\textrm{H} + n_\textrm{He}$ are the hydrogen, helium, and baryon number densities, respectively. The ionization fractions (defined to be between $0$ and $1$) are given by $x_\textrm{HII}$, $x_\textrm{HeII}$, and $x_\textrm{HeIII}$, referring to singly ionized hydrogen, singly ionized helium, and doubly ionized helium, respectively. The helium fraction $Y_p^\textrm{BBN}$ is defined\footnote{We follow both the \emph{Planck} team's convention and notation in defining $Y_p^\textrm{BBN}$ as four times the number density fraction, rather than as the helium \emph{mass} fraction (defined as $4n_\textrm{He} / [n_\textrm{H} + (m_\textrm{He} / m_\textrm{H}) n_\textrm{H} ]$, where $m_\textrm{H}$ and $m_\textrm{He}$ are the atomic weights of hydrogen and helium, respectively).} as $4n_\textrm{He} / n_b$, and $\delta_b$ denotes the baryon overdensity. In the penultimate equality, we made the standard approximation that the helium is singly reionized at the same time as hydrogen is, and in the final equality, we used the fact that $n_b =\overline{n}_b ( 1+ \delta_b)$. With this factorization, the averaged baryon density can be easily related to cosmological parameters via
+where $n_\textrm{H}$, $n_\textrm{He}$, and $n_b = n_\textrm{H} + n_\textrm{He}$ are the hydrogen, helium, and baryon number densities, respectively. The ionization fractions (defined to be between $0$ and $1$) are given by $x_\textrm{HII}$, $x_\textrm{HeII}$, and $x_\textrm{HeIII}$, referring to singly ionized hydrogen, singly ionized helium, and doubly ionized helium, respectively. The helium fraction $Y_p^\textrm{BBN}$ is defined as $4n_\textrm{He} / n_b$, and $\delta_b$ denotes the baryon overdensity.\footnote{We follow the \emph{Planck} team's convention and notation in defining $Y_p^\textrm{BBN}$ as four times the number density fraction, rather than as the helium \emph{mass} fraction (which would instead be defined as $4n_\textrm{He} / [n_\textrm{H} + (m_\textrm{He} / m_\textrm{H}) n_\textrm{H} ]$, where $m_\textrm{H}$ and $m_\textrm{He}$ are the atomic weights of hydrogen and helium, respectively).} In the penultimate equality, we made the standard approximation that the helium is singly reionized at the same time as hydrogen is, and in the final equality, we used the fact that $n_b =\overline{n}_b ( 1+ \delta_b)$. With this factorization, the averaged baryon density can be easily related to cosmological parameters via
 \begin{equation}
 \overline{n}_b = \frac{3 H_0^2 \Omega_b}{8 \pi G \mu m_p} (1+z)^3,
 \end{equation}
-where $H_0$ is the Hubble parameter, $\Omega_b$ is the normalized baryon density, $G$ is the gravitational constant, $m_p$ is the mass of the proton, and $\mu$ is the mean molecular weight, which in our case is given by
+where $\Omega_b$ is the normalized baryon density, $G$ is the gravitational constant, $m_p$ is the mass of the proton, and $\mu$ is the mean molecular weight, which in our case is given by
 \begin{equation}
 \mu = 1 + \frac{Y_p^\textrm{BBN}}{4} \left( \frac{m_\textrm{He}}{m_\textrm{H}} - 1\right).
 \end{equation}
@@ -82,7 +115,7 @@ Finally, we assume a flat universe and thus have as our differential line elemen
 \frac{dl}{dz} =  \frac{c/H_0}{(1+z) \sqrt{\Omega_m (1+z)^3 + \Omega_\Lambda}}.
 \end{equation}
 
-Putting everything together, we may express the total optical depth as $\tau \equiv \tau_\textrm{H} + \tau_\textrm{He}$, with $\tau_\textrm{H}$ and $\tau_\textrm{He}$ denoting the portions of the optical depth sourced by free electrons from HI/HeI reionization and that from HeII reionization, respectively \acl{What's the latex command for changing the font for things like HI?}. These two contributions take the form
+Putting everything together, we may express the total optical depth as $\tau \equiv \tau_\textrm{H} + \tau_\textrm{He}$, with $\tau_\textrm{H}$ and $\tau_\textrm{He}$ denoting the portions of the optical depth sourced by free electrons from HI/HeI reionization and that from HeII reionization, respectively.\footnote{Throughout this paper, we adopt the convention where ``hydrogen reionization" refers to the joint reionization of HI and HeI, whereas ``helium reionization" refers to the ionization of HeII only.} These two contributions take the form
 \begin{eqnarray}
 \label{eq:tauH}
 \tau_\textrm{H} = \frac{3 H_0 \Omega_b \sigma_Tc}{8 \pi G m_p} \left[ 1 + \frac{Y_p^\textrm{BBN}}{4}\left( \frac{m_\textrm{He}}{m_\textrm{H}} - 1\right)\right]^{-1} \nonumber \\
@@ -94,53 +127,53 @@ and
 \tau_\textrm{He} = \frac{3 H_0 \Omega_b \sigma_Tc}{8 \pi G m_p} \left[ \frac{4}{Y_p^\textrm{BBN}} + \left( \frac{m_\textrm{He}}{m_\textrm{H}} - 1\right)\right]^{-1} \nonumber \\
 \times \int_0^{z_\textrm{CMB}} \frac{dz (1+z)^2}{\sqrt{\Omega_\Lambda + \Omega_m (1+z)^3}}  \overline{x_\textrm{HeIII} (1+\delta_b)},
 \end{eqnarray}
-where $z_\textrm{CMB}$ is the redshift of the surface of last scattering. From these expressions, we see explicitly how various cosmological parameters and astrophysical fields contribute to a prediction of $\tau$. In what follows, we will discuss the extent to which these contributions must be known accurately before a precision value for $\tau$ can be predicted.
+where $z_\textrm{CMB}$ is the redshift of the surface of last scattering. From these expressions, we see explicitly how various cosmological parameters and astrophysical fields contribute to a prediction of $\tau$. In what follows, we will discuss the extent to which these contributions must be known accurately before a high-precision value for $\tau$ can be predicted.
 
 \subsection{Uncertainties from fundamental constants and cosmological parameters}
+\label{sec:CosmoParamUncertainties}
+Eqs. \eqref{eq:tauH} and \eqref{eq:tauHe} both involve a large number of fundamental constants and cosmological parameters, all of which come with their own error bars. Constants such as $G$, $\sigma_T$, $c$, $m_p$, $m_\textrm{H}$, and $m_\textrm{He}$ contribute negligibly to the error budget of $\tau$. The same is true for $Y_p^\textrm{BBN}$, which is constrained to be $0.2467\pm0.0006$ by a combination of \emph{Planck} data and BBN calculations \acl{Cite!}. The remaining parameters contribute to the error budget in a non-negligible way and must be accounted for.
 
-Eqs. \eqref{eq:tauH} and \eqref{eq:tauHe} both involve a large number of fundamental constants and cosmological parameters, all of which come with their own error bars. Constants such as $G$, $\sigma_T$, $c$, $m_p$, $m_\textrm{H}$, and $m_\textrm{He}$ contribute negligibly to the error budget of $\tau$. The same is true for $Y_p^\textrm{BBN}$, which is constrained to be $0.2467\pm0.0006$ by a combination of \emph{Planck} data and Big Bang Nucleosynthesis (BBN) calculations \acl{Cite!}. The remaining parameters contribute to the error budget in a non-negligible way and must be accounted for.
-
-Consider first the uncertainties arising from cosmological parameters, leaving astrophysical uncertainties in the reionization process to Sec. \ref{sec:astroUncertainties}. To simplify the latter in order to clarify the former, suppose (for this section only) that reionization occurs instantaneously at redshift $z_\textrm{ion}$ (with different values depending on whether one is discussing hydrogen or helium reionization, i.e., whether one is referring to Eqs. \ref{eq:tauH} or \ref{eq:tauHe}).\acl{Should write a footnote somewhere defining hydrogen and helium reionization once and for all} Terms such as $\overline{x_\textrm{HII} (1+\delta_b)}$ and $\overline{x_\textrm{HeIII} (1+\delta_b)}$ thus reduce to step functions that are $1$ for $z<z_\textrm{ion}$ and $0$ otherwise. The integrals in our expressions can then be evaluated analytically, yielding
+Consider first the uncertainties arising from cosmological parameters, leaving astrophysical uncertainties in the reionization process to Sec. \ref{sec:astroUncertainties}. To simplify the latter in order to clarify the former, suppose (for this section only) that reionization occurs instantaneously at redshift $z_\textrm{ion}$ (with different values depending on whether one is discussing hydrogen or helium reionization, i.e., whether one is referring to Eqs. \ref{eq:tauH} or \ref{eq:tauHe}). Terms such as $\overline{x_\textrm{HII} (1+\delta_b)}$ and $\overline{x_\textrm{HeIII} (1+\delta_b)}$ thus reduce to step functions that are $1$ for $z<z_\textrm{ion}$ and $0$ otherwise. The integrals in our expressions can then be evaluated analytically, yielding
 \begin{eqnarray}
 \label{eq:exactConstant}
 \tau \propto \frac{h \Omega_b }{\Omega_m} \left[ \sqrt{\Omega_\Lambda + \Omega_m (1+z_\textrm{ion})^3} - 1 \right],
 \end{eqnarray}
 where we have employed the standard definition $H_0 \equiv 100h \frac{\textrm{km}/\textrm{s}}{\textrm{Mpc}}$, and have omitted the subscripts for $\tau_\textrm{HI}$ and $\tau_\textrm{He}$ in favor of a generic $\tau$ because the dependence on cosmological parameters are the same in either case.
 
-To estimate the uncertainty in this prefactor for $\tau$, we propagate cosmological parameter uncertainties from \emph{Planck} results. To account for error correlations between different parameters, we use the publicly released covariance matrices to draw random samples of $\Omega_b h^2$, $\Omega_c h^2$, and $\theta_\textrm{MC}$, where $\Omega_c$ is the normalized cold dark matter density, and $\theta_\textrm{MC}$ is the CosmoMC software package's approximation to the angular size of the sound horizon at recombination. From this set, all the parameters necessary for evaluating Eq. \eqref{eq:exactConstant} can be obtained. Using \emph{Planck's} ``Planck TT + lowP" covariance from the 2015 data release (featuring relatively high $\Omega_m$ and $\tau$), the fractional error in Eq. \eqref{eq:exactConstant} is $1.40\%$. Similar results are obtained from the ``Planck TT,TE,EE + lowP + lensing + ext" (featuring relatively low $\Omega_m$ and $\tau$), with a fractional error of $0.75\%$. As we shall see later in this paper, this level of uncertainty is large enough to be non-negligible in a precision determination of $\tau$, but still small enough for the $21\,\textrm{cm}$-derived computation of $\tau$ in later sections to have a meaningful impact on bottom-line cosmological parameter errors.
+To estimate the uncertainty in this prefactor for $\tau$, we propagate cosmological parameter uncertainties from \emph{Planck} results. To account for error correlations between different parameters, we use the publicly released covariance matrices to draw random samples of $\Omega_b h^2$, $\Omega_c h^2$, and $\theta_\textrm{MC}$, where $\Omega_c$ is the normalized cold dark matter density, and $\theta_\textrm{MC}$ is the {\tt CosmoMC} software package's approximation to the angular size of the sound horizon at recombination. From this set, all the parameters necessary for evaluating Eq. \eqref{eq:exactConstant} can be obtained. Using \emph{Planck's} TT + lowP covariance from the 2015 data release (featuring relatively high $\Omega_m$ and $\tau$), the fractional error in Eq. \eqref{eq:exactConstant} is $1.40\%$. Similar results are obtained for TT,TE,EE + lowP + lensing + ext (featuring relatively low $\Omega_m$ and $\tau$), with a fractional error of $0.75\%$. Note that these estimates constitute a lower limit on how cosmological parameter uncertainties can affect a $21\,\textrm{cm}$-derived prediction of $\tau$. This is because we have so far only considered the influence that cosmological parameters have on the ``geometric" portions of $\tau$ (e.g., $dl/dz$). In reality, cosmological parameters also affect quantities such as $x_\textrm{HII}$, leading to the possibility that the final errors may be larger than predicted in this section. However, it is reassuring that our lower limits are small enough that it appears to be a worthwhile exercise to use $21\,\textrm{cm}$ observations to better constrain $\tau$. We will find this conclusion to be unchanged when we include the non-geometric influence of cosmological parameters in Sec. \ref{eq:Pkformalism}.
 
-\begin{figure*}[!]
-	\centering
-	\includegraphics[width=1.0\textwidth,trim=0cm 0cm 0cm 0cm,clip]{figures/tauPrefac.pdf}
-	\caption{asdf}
-	\label{fig:tauPrefac}
-\end{figure*}
-
-Importantly, we note that the prefactor for $\tau$ is relatively insensitive to $h$. The fact that the error on our prefactor (about $0.75\%$ for Planck TT,TE,EE + lowP + lensing + ext) is roughly the same as the error on $h$ (about $0.46 / 67.74 \sim 0.68\%$ for the same dataset) is a coincidence, even though Eq. \eqref{eq:exactConstant} appears to be proportional to $h$. To understand this, assume that $\Omega_m (1+z)^3 \gg \Omega_\Lambda$. Taylor expanding our expression to first order then gives
-\begin{equation}
-\tau \propto \frac{\Omega_b h^2 (1+z_\textrm{ion})^\frac{3}{2}}{(\Omega_m h^2)^{1/2}} \left[ 1 + \frac{1-\Omega_m}{\Omega_m (1+z_\textrm{ion})^3}- \frac{1}{\Omega_m^{1/2} (1+z_\textrm{ion})^\frac{3}{2}}\right].
-\end{equation}
-where we have suggestively written the term in front of the brackets in terms of $(\Omega_m h^2,\Omega_b h^2)$. In this form, the parameters are proportional to physical energy densities, and are therefore directly related to our Universe's expansion history. CMB studies fit for  parameters like $\Omega_b h^2$ rather than $\Omega_b$. To zeroth order, then, the dependence on $h$ is cosmetic and cancels out completely, with $h$ entering only at first order with the appearance of a bare $\Omega_m$ inside the square brackets. Numerically, one finds that the term within the square brackets varies only slowly with $\Omega_m$, and thus any variations in $h$ are likely to have a small impact on our overall prefactor. This can be seen in Figure \ref{fig:tauPrefac}. The left panel shows samples of $\Omega_m$ plotted against samples of the first-order correction in the square brackets. One sees that a fractional change of order unity in $\Omega_m$ results in only a $2.5\%$ change in the first-order correction. The middle panel shows how the correction changes with $h$, with the former changing by $\sim 10\%$ for an order unity change in the latter. Finally, the right panel shows that the zeroth and first order corrections tend to have opposite signs, canceling out some of the uncertainty. Putting this all together, we see that our ability to constrain $\tau$ is reasonably insensitive to uncertainties in $h$. Indeed, we find from numerical experimentation that imposing a prior on $h$ has little to no effect on our ability to predict the $\tau$ prefactor. This is rather fortunate, for it shields us from the fact that \emph{Planck}-derived values of $h$ are in slight tension with direct $H(z)$ measurements using supernovae \acl{Cite!}. \acl{Need to mention the fact that since better constraints on $\tau$ give us better cosmological parameters all around, a joint fit will in principle push down the cosmological errors down even further. But it's negligible since $\Omega_b$ and $\Omega_m$ don't improve by that much.}
+%\begin{figure*}[!]
+%\centering
+%\includegraphics[width=1.0\textwidth,trim=0cm 0cm 0cm 0cm,clip]{figures/tauPrefac.pdf}
+%\caption{asdf}
+%\label{fig:tauPrefac}
+%\end{figure*}
+%
+%Importantly, we note that the prefactor for $\tau$ is relatively insensitive to $h$. The fact that the error on our prefactor (about $0.75\%$ for Planck TT,TE,EE + lowP + lensing + ext) is roughly the same as the error on $h$ (about $0.46 / 67.74 \sim 0.68\%$ for the same dataset) is a coincidence, even though Eq. \eqref{eq:exactConstant} appears to be proportional to $h$. To understand this, assume that $\Omega_m (1+z)^3 \gg \Omega_\Lambda$. Taylor expanding our expression to first order then gives
+%\begin{equation}
+%\tau \propto \frac{\Omega_b h^2 (1+z_\textrm{ion})^\frac{3}{2}}{(\Omega_m h^2)^{1/2}} \left[ 1 + \frac{1-\Omega_m}{\Omega_m (1+z_\textrm{ion})^3}- \frac{1}{\Omega_m^{1/2} (1+z_\textrm{ion})^\frac{3}{2}}\right].
+%\end{equation}
+%where we have suggestively written the term in front of the brackets in terms of $(\Omega_m h^2,\Omega_b h^2)$. In this form, the parameters are proportional to physical energy densities, and are therefore directly related to our Universe's expansion history. CMB studies fit for  parameters like $\Omega_b h^2$ rather than $\Omega_b$. To zeroth order, then, the dependence on $h$ is cosmetic and cancels out completely, with $h$ entering only at first order with the appearance of a bare $\Omega_m$ inside the square brackets. Numerically, one finds that the term within the square brackets varies only slowly with $\Omega_m$, and thus any variations in $h$ are likely to have a small impact on our overall prefactor. This can be seen in Figure \ref{fig:tauPrefac}. The left panel shows samples of $\Omega_m$ plotted against samples of the first-order correction in the square brackets. One sees that a fractional change of order unity in $\Omega_m$ results in only a $2.5\%$ change in the first-order correction. The middle panel shows how the correction changes with $h$, with the former changing by $\sim 10\%$ for an order unity change in the latter. Finally, the right panel shows that the zeroth and first order corrections tend to have opposite signs, canceling out some of the uncertainty. Putting this all together, we see that our ability to constrain $\tau$ is reasonably insensitive to uncertainties in $h$. Indeed, we find from numerical experimentation that imposing a prior on $h$ has little to no effect on our ability to predict the $\tau$ prefactor. This is rather fortunate, for it shields us from the fact that \emph{Planck}-derived values of $h$ are in slight tension with direct $H(z)$ measurements using supernovae \acl{Cite!}. \acl{Need to mention the fact that since better constraints on $\tau$ give us better cosmological parameters all around, a joint fit will in principle push down the cosmological errors down even further. But it's negligible since $\Omega_b$ and $\Omega_m$ don't improve by that much.}
 
 
 
 \subsection{Uncertainties from astrophysical processes}
 \label{sec:astroUncertainties}
 
-We now consider the astrophysical uncertainties in predicting $\tau$. At the crudest level, changes in astrophysics affect the redshift of reionization $z_\textrm{ion}$, which affects the optical depth via Eq. \eqref{eq:exactConstant}. Indeed, working in reverse and solving for $z_\textrm{ion}$ given a measured value of $\tau$ is how CMB experiments place constraints on reionization.
+We now consider the uncertainties in predicting $\tau$ that arise directly from uncertain astrophysics (aside from the subtler changes to astrophysics occurring because of shifts in cosmological parameters that we alluded to above). At the crudest level, changes in astrophysics affect the redshift of reionization $z_\textrm{ion}$, which affects the optical depth via Eq. \eqref{eq:exactConstant}. Indeed, working in reverse and solving for $z_\textrm{ion}$ given a measured value of $\tau$ is how CMB experiments have traditionally placed constraints on reionization, although recent advances in higher order effects such as the kinetic Sunyaev-Zel'dovich effect have enabled increasingly sophisticated limits. \acl{Cite}
 
 Ultimately, we shall see that it is important to model reionization astrophysics in detail, beyond the simple parametrization of $z_\textrm{ion}$. However, by considering the coarse dependence of $z_\textrm{ion}$ on $\tau$, we can distinguish the pieces of astrophysics that need to be carefully modeled from those that do not. In particular, we will now show that helium reionization contributes relatively little to $\tau$, making it unnecessary to model the process in a detailed way. Consider the ratio of $\tau_\textrm{He}$ to $\tau_\textrm{H}$, which can be written as
 \begin{equation}
 \frac{\tau_\textrm{He}}{\tau_\textrm{H}} = \frac{Y_p^\textrm{BBN}}{4} \left[ \frac{ \sqrt{\Omega_\Lambda + \Omega_m (1+z_\textrm{ion,He})^3} - 1}{ \sqrt{\Omega_\Lambda + \Omega_m (1+z_\textrm{ion,H})^3} - 1}\right],
 \end{equation}
-where $z_\textrm{ion,He}$ and $z_\textrm{ion,H}$ are the redshifts of helium and hydrogen reionization, respectively, assuming that both processes are instantaneous. For a fiducial model with $\Omega_\Lambda = 0.6911$, $\Omega_m = 0.3089$, $z_\textrm{ion,H} = 8.8$ (corresponding to \emph{Planck's} TT,TE,EE + lowP + lensing + ext dataset), and $z_\textrm{ion,He} = 3$, this ratio is $\sim 1.4\%$. Any errors in helium reionization are then suppressed by this factor. Quantitatively, if we parameterize the uncertainty in helium reionization by considering a shift $\delta z_\textrm{ion,He}$ in $z_\textrm{ion,He}$, the fractional error in $\tau$ arising from such uncertainty is given approximately by $\tau_\textrm{ion,H}^{-1} (\partial \tau_\textrm{He} / \partial z_\textrm{ion,He}) \delta z_\textrm{ion,He}$. This quantity is shown in Figure \ref{fig:HeII_reion_errors}, where we have overlaid the fractional errors from cosmological parameter uncertainties that we computed in the previous section. One sees that so long as the redshift of helium reionization $z_\textrm{ion,He}$ can be constrained to better than $ \delta z_\textrm{ion,He} \sim 1$, the uncertainties in the astrophysics of helium reionization are subdominant to the those from cosmological parameters.
+where $z_\textrm{ion,He}$ and $z_\textrm{ion,H}$ are the redshifts of helium and hydrogen reionization, respectively, assuming that both processes are instantaneous. For a fiducial model with $\Omega_\Lambda = 0.6911$, $\Omega_m = 0.3089$, $z_\textrm{ion,H} = 8.8$ (corresponding to \emph{Planck's} TT,TE,EE + lowP + lensing + ext dataset), and $z_\textrm{ion,He} = 3$, this ratio is $\sim 1.4\%$. Any errors in helium reionization are then suppressed by this factor. Quantitatively, if we parameterize the uncertainty in helium reionization by considering a shift $\delta z_\textrm{ion,He}$ in $z_\textrm{ion,He}$, the fractional error in $\tau$ arising from such uncertainty is given approximately by $\tau_\textrm{ion,H}^{-1} (\partial \tau_\textrm{He} / \partial z_\textrm{ion,He}) \delta z_\textrm{ion,He}$. This quantity is shown in Fig. \ref{fig:HeII_reion_errors}, where we have overlaid the fractional errors from cosmological parameter uncertainties that we computed in the previous section. One sees that so long as the redshift of helium reionization $z_\textrm{ion,He}$ can be constrained to better than $ \delta z_\textrm{ion,He} \sim 1$, the uncertainties in the astrophysics of helium reionization are subdominant to the those from cosmological parameters.
 %Assuming that the astrophysics of reionization is relatively insensitive to variations in cosmological parameters at the level of \emph{Planck} precision, the fractional errors from cosmological parameters and those from helium reionization combine in quadrature.
 Current observational constraints suggest $ \delta z_\textrm{ion,He} \sim 0.1$ \acl{Cite Furlanetto \& Oh 2008 and see if there are better, more recent sources. Also need to mention how this is not precisely apples-to-apples, since we're converting a spatial spread in helium reionization to a spread in our knowledge.}, which make uncertainties from helium reionization negligible.
 
 \begin{figure}[!]
 	\centering
 	\includegraphics[width=0.5\textwidth,trim=0.5cm 0cm 0.75cm 0.90cm,clip]{figures/HeII_reion.pdf}
-	\caption{asdf}
+	\caption{Fractional error in $\tau$ induced by uncertainties in helium reionization as a function of the redshift of helium reionization $z_\textrm{ion,He}$ and the uncertainty in this redshift $\delta z_\textrm{ion,He}$. For reasonable values of these parameters, the errors arising from uncertainties in helium reionization are subdominant to those arising from cosmological parameter uncertainty. It is thus permissible to neglect uncertainties in helium reionization.}
 	\label{fig:HeII_reion_errors}
 \end{figure}
 
@@ -148,123 +181,400 @@ In contrast, the astrophysics of hydrogen reionization must be accurately modele
 
 \begin{figure}[!]
 	\centering
-	\includegraphics[width=0.5\textwidth,trim=0.5cm 0cm 0.5cm 0.80cm,clip]{figures/insideOutvsOutsideIn.pdf}
-	\caption{asdf}
+	\includegraphics[width=0.45\textwidth]{figures/insideOutvsOutsideIn.pdf}
+	\caption{Cumulative contribution to the optical depth $\tau$ from low to high redshift, for several different models of reionization. The crucial astrophysical quantity for a precise determination of $\tau$ is the density-weighted ionized fraction. This depends on the correlation between the ionization field and the density field. The different reionization models shown here reflect different models for this correlation, which must be known for a precise prediction of $\tau$, given the spread seen here.}
 	\label{fig:InsideOutvsOutsideIn}
 \end{figure}
 
-In summary, we see that uncertainties in $\tau$ predictions arise from both uncertainties in cosmological parameters and uncertainties in astrophysics. If not accounted for in detail, the astrophysics contributes more to errors in $\tau$ than the cosmology does. To make progress, then, it is necessary to use external observational data to better understand reionization.
+In summary, we see that uncertainties in $\tau$ predictions arise from both uncertainties in cosmological parameters and uncertainties in astrophysics. If not accounted for in detail, the astrophysics contributes more to errors in $\tau$ than the cosmology does. To make progress, then, our goal is to use $21\,\textrm{cm}$ data to better understand the astrophysics of reionization.
 
 \section{Relating $\tau$ to HI surveys}
+\label{eq:Pkformalism}
 
-As a \emph{direct} probe of the IGM \acl{Make sure acronym is defined before this} at the relevant redshifts, it is unsurprising that one can use $21\,\textrm{cm}$ cosmological surveys to predict $\tau$. After all, $\tau$ and the $21\,\textrm{cm}$ line are both probes of reionization, and thus are sensitive to the same underlying astrophysics. In this section, however, we will argue that the connections between the $21\,\textrm{cm}$ line and $\tau$ are in fact much deeper, allowing the former to predict the latter much better than other probes of reionization can.
+As we have seen in previous sections, predictions of $\tau$ are currently dominated by uncertainties in astrophysics. In this section, we establish formalism for incorporating $21\,\textrm{cm}$-derived astrophysical constraints from reionization to provide better measurements of $\tau$ (and thus other cosmological parameters) than one can obtain using the CMB alone.
 
-Consider first the expression for the CMB optical depth, which is given by
+The brightness temperature contrast $\delta T_b$ of the redshifted $21\,\textrm{cm}$ line against the CMB is given by \acl{Cite}
 \begin{equation}
-\tau = \int  \sigma_T \langle x_e (z) n_\textrm{HI} (z) \rangle dl,
+\label{eq:deltaTdef}
+\delta T_b(\mathbf{\hat{n}}, \nu) \approx \delta T_{b0}\, x_\textrm{HI}  (1 + \delta_b) \left( 1 - \frac{T_\gamma}{T_s}\right)\!\left( \frac{H}{H+ \partial v_r / \partial r} \right),
 \end{equation}
-where $x_e$ is the free-electron fraction, $n_\textrm{HI}$ is the neutral hydrogen number density, $\sigma_T$ is the Thomson cross-section, $dl$ is the line-of-sight differential element \acl{Check to see if there's a better term for this}, and angle brackets $\langle \cdots \rangle$ denote an average over all sky directions. Importantly, this average does not factor, in the sense that $\langle x_e n_\textrm{HI} \rangle \neq \langle x_e  \rangle \langle n_\textrm{HI}  \rangle$, even though this approximation is frequently seen in the literature. Physically, this arises because there is a non-zero correlation between the ionization field (which governs the distribution of free electrons) and the density field during reionization. For example, in ``inside-out" reionization models, high density regions are ionized first, leading to a positive correlation between the ionization and density fields. Modeling such correlations are crucial to precision predictions of $\tau$.
+with
+\begin{eqnarray}
+\label{eq:TbPrefactor}
+\delta T_{b0} &=&  \frac{9\hbar c^2 A_{10}\Omega_b H_0}{128 \pi G k_B \nu_{21}^2 \mu m_p\Omega_m^{1/2}} \left(1 - \frac{Y_p^\textrm{BBN}}{4} \right) \nonumber \\
+&\approx& 28 \left( \frac{1+z}{10} \frac{0.14}{\Omega_m h^2} \right)^\frac{1}{2} \left( \frac{\Omega_b h^2}{0.022}\right)\,\textrm{mK},
+\end{eqnarray}
+%\begin{eqnarray}
+%\label{eq:deltaTdef}
+%\delta T_b(\mathbf{\hat{n}}, \nu) \approx 27 x_\textrm{HI} && (1 + \delta_b) \left( 1 - \frac{T_\textrm{CMB}}{T_s}\right) \left( \frac{1}{1+H^{-1} \partial v_r / \partial r} \right) \nonumber \\
+%&& \times  \left( \frac{1+z}{10} \frac{0.14}{\Omega_m h^2} \right)^\frac{1}{2} \left( \frac{\Omega_b h^2}{0.022}\right)\,\textrm{mK},
+%\end{eqnarray}
+where $\hbar$ is the reduced Planck's constant, $A_{10}=2.85\times10^{-15}\,\textrm{s}^{-1}$ is the spontaneous emission coefficient of the $21\,\textrm{cm}$ transition, $k_B$ is Boltzmann's constant, $\nu_\textrm{21} \approx 1420\,\textrm{MHz}$ is the frequency of the $21\,\textrm{cm}$ line, $x_\textrm{HI} = 1 - x_\textrm{HII}$ is the hydrogen neutral fraction, $T_\gamma$ is the temperature of the CMB, $T_s$ is the spin temperature of the hydrogen atoms, and $\partial v_r / \partial r$ is the derivative of the comoving radial peculiar velocity with respect to the comoving radial distance. It is understood that $T_\gamma$, $T_s$, $\delta_b$, $x_\textrm{HI}$, $H$, and $\partial v_r / \partial r$ are evaluated at redshift $z = (\nu_\textrm{21} / \nu ) -1$. The brightness temperature field is sensitive to both the cosmology (via $\delta_b$, $H$, $\partial v_r / \partial r$ and standard cosmological parameters) and the astrophysics (via $x_\textrm{HI}$ and $T_s$) of reionization. Since the product of $x_\textrm{HI} \delta_b$ enters the expression for $\delta T_b$, the $21\,\textrm{cm}$ line is clearly sensitive to the correlations between density and ionization, which we argued in the previous section is a crucial ingredient in our quest to understand reionization well enough to precisely predict $\tau$.
 
-Fortunately, the $21\,\textrm{cm}$ line can be an incisive probe of the relevant correlations. To see this, note that if one ignores peculiar velocities 
+%Furthermore, the $21\,\textrm{cm}$ line is proportional to the density-weighted neutral fraction $x_\textrm{HI} ( 1+ \delta_b)$, making  it particularly well-suited to constraining $\tau$, which we saw in Eq. \eqref{eq:tauH} was proportional to a closely related quantity, the density-weighted ionized fraction. This will 
+%
 
-\section{Tau Predictions}
+To harness the $21\,\textrm{cm}$ line for a $\tau$ prediction, however, there are two challenges that must be overcome. First, it is necessary to make redshifted $21\,\textrm{cm}$ measurements that have high enough signal-to-noise to be useful. Unfortunately, a combination of sensitivity limitations and foreground contamination make direct measurements of the brightness temperature field unlikely in the near future. More observationally attainable in the short term are measurements of the brightness temperature power spectrum $P_\textrm{21} (k)$, as defined by Eq. \eqref{eq:PspecDef}.
 
-\begin{itemize}
-\item What does it take to predict tau? Emphasize the point that Jonathan made: it's the density-weighted ionization fraction that counts. So it's more complicated than just integrating an ionization history. Perhaps this would be a good place to add Jonathan's nice plots from global inside-out, outside-in, local... etc.?
-\end{itemize}
+\begin{figure*}[!]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/lightcones.pdf}
+	\caption{Top row: Simulation of the nonlinear density field over the past light cone that is observed by a $21\,\textrm{cm}$ experiment. Second row: Corresponding ionization fraction. Third row: Corresponding ionized fraction history $\overline{x}_\textrm{HI}$ (red solid curve) and the density-weighted ionization history $\overline{x_\textrm{HII} (1+ \delta_b)}$ (black solid curve). Also shown (orange dashed curve) is the global signal approximation $1 - \overline{\delta T_b} / \delta T_{b0}$ to the density-weighted ionization history (see Sec. \ref{sec:GlobalSig}). The approximation is seen to break down at higher redshifts, when the finite spin temperature cannot be neglected. The averaged ionized fraction is also seen to be a poor approximation for the density-weighted ionized fraction, which is the crucial quantity for determining $\tau$. Bottom row: Corresponding $21\,\textrm{cm}$ power spectra at various redshift, plotted as $\Delta^2_{21} (k) \equiv k^3 P_{21}(k) / 2 \pi^2$. In our proposed analysis, one measures the bottom row through observations, constraining underlying model parameters that are then fed into simulations to produce the top two rows. The density-weighted ionization fraction (third row) is then extracted and inserted into Eq. \eqref{eq:tauH} to determine $\tau$.}
+	\label{fig:Simulations}
+\end{figure*}
 
-Roughly speaking, we envision a multi-stage process for using $21\,\textrm{cm}$ measurements for constraining $\tauc$. First, qualitatively different models are distinguished from one another with coarse measurements of the power spectrum or even higher order statistics \acl{Cite Watkinson and Pritchard}. Having selected a single model out of many, one then uses precision power spectrum measurements to fix free parameters within the model. The correlated ionization and density fields of the model can then be predicted from simulations, and the optical depth estimated. This simulation-derived optical depth may, however, deviate from the ``true" value of $\tauc$ in our Universe because simulations depend on random realizations of density fields. If this ``simulation variance" on $\tauc$ is small enough to be tolerable, one may immediately feed the derived value of $\tauc$ into broader cosmological parameter estimations. On the other hand, if the simulation variance is large, it becomes necessary to directly measure the realization of $\tauc$ that represents our Universe. To do so, we propose using power spectrum measurements to restrict the space of possible reionization histories, enabling a principal component-based parameterization that can then be precisely constrained using a global signal measurement. Through the linearity arguments presented above \acl{Make sure these are included, or discuss them here}, these essentially constitute a direct measurement of the optical depth.
 
-\subsection{Tau predictions from power spectrum measurements}
-\begin{itemize}
-\item Power spectrum measurements are a rather poor way of doing it, but they're the most promising short-term observable. So we're choosing to take a look at it, even though it's quite model dependent. It'll essentially require tying the measurements to simulations. We assume that large qualitative changes to reionization physics have already been ruled out in an earlier model selection step.
-\item Talk about the models and why it's ok to ignore spin temperature (basically ionization frac is too low when spin temperature effects are important). But maybe we should quantify this a little.
-\item Point out the interesting feature where the degeneracies in 21cm don't compromise our ability to predict tau.
+Having identified the $21\,\textrm{cm}$ power spectrum as a promising near-term, high signal-to-noise measurement of reionization, the second challenge is the translation of our measurements into a precise prediction of $\tau$. Fundamentally, what is needed for Eq. \eqref{eq:tauH} is the density-weighted ionized fraction, but as one sees from substituting Eq. \eqref{eq:deltaTdef} into Eq. \eqref{eq:PspecDef}, the $21\,\textrm{cm}$ power spectrum probes a much more complicated combination of parameters and their correlations. To connect our power spectrum observations to the underlying fields needed for out $\tau$ prediction, we appeal to semi-analytic simulations. In particular, we assume an inside-out model of reionization based on the excursion set formalism of \acl{Cite Steve}, as implemented in the publicly available {\tt 21cmFAST} software \acl{Cite}.
 
-Of course, no probe of reionization is perfect, and any practical measurement will come with its attendant errors and degeneracies. For example, in \acl{Cite Jonnie and Grieg \& Mesinger} it was shown that except in the extremely high signal-to-noise regime, fits to theoretical model parameters from $21\,\textrm{cm}$ power spectrum measurements are prone to strong degeneracies if performed at a single redshift. Multi-redshift observations break these degeneracies to a great extent, enabling for instance $\sim 10\%$ level constraints \acl{Check numbers} from upcoming instruments like HERA. However, some degeneracy will remain, as evidenced by the elliptical contours shown in Figure \ref{fig:21cmDegen_wTau}, which show some example $68\%$ and $95\%$ confidence regions on $T_\textrm{vir}$ and $\zeta$ constraints. These are derived from Fisher matrix forecasts assuming multi-redshift power spectrum measurements performed by HERA \acl{Specify a lot more what went into this calculation, especially regarding foregrounds}. There is clearly a degeneracy that persists between the two parameter.
+Fig. \ref{fig:Simulations} illustrates how semi-analytic simulations can be used to connect $21\,\textrm{cm}$ power spectrum measurements to $\tau$. The bottom row of the figure shows the $21\,\textrm{cm}$ power spectra at various redshifts, plotted as $\Delta^2_{21} (k) \equiv k^3 P_{21}(k) / 2 \pi^2$. These are (after some data analysis) what our experiments measure. With power spectra in hand, one can simultaneously fit for astrophysical and cosmological parameters in an underlying model of reionization, likely with the assistance of priors from other cosmological probes such as the CMB. Once the underlying parameters have been determined, the semi-analytic simulations can be run to produce past light cone maps of the non-linear baryon density (top row of figure) and ionization fields and ionization fields (second row). These maps can then be used to form $\overline{x_\textrm{HII} (1+ \delta_b)}$ (third row), which is then inserted into Eq. \eqref{eq:tauH} to predict $\tau$. Note that from Fig. \ref{fig:Simulations} there is a clear difference between the $\overline{x}_\textrm{HI}$ and $\overline{x_\textrm{HII} (1+ \delta_b)}$ curves, again illustrating the importance of modeling correlations between density and ionization.
+
+Importantly, the semi-analytic simulations used for the procedure outlined above must span a wide range of redshifts, from before reionization has begun to after reionization is complete. This is necessary because even small levels of ionization can perturb the predicted value of $\tau$ by more than our final error bars. By producing full histories of the density and ionization fields, the simulations compensate for the limited reach in redshift of near-term experiments, which are unlikely to probe the very beginning of reionization to high precision. The self-consistency required by a simulation produces a full reionization history once the model parameters are fixed by (relatively) low-redshift observations.
+
+Another limitation of our observations lies in the inherent uncertainty of a $21\,\textrm{cm}$ power spectrum measurement. Instrumental noise, foregrounds, and even the (somewhat coarse) nature of the probe itself means that our predicted value of $\tau$ will come with a corresponding set of uncertainties. Fortunately, we will now see that these errors and degeneracies in $21\,\textrm{cm}$ measurements are unlikely to seriously compromise out ability to predict $\tau$. Following \acl{cite}, we consider a three-parameter model of reionization, parameterized by $T_\textrm{vir}$, the minimum virial temperature of the first ionizing galaxies; $\zeta$, the ionizing efficiency of those galaxies; and $R_\textrm{mfp}$, the mean free path of ionizing photons in ionized regions of our Universe. As shown in \acl{cite Jonnie and me}, $21\,\textrm{cm}$ power spectrum measurements tend to constrain these parameters in a way that leaves $T_\textrm{vir}$ and $\zeta$ largely degenerate. While multi-redshift information does help to break this degeneracy, it tends to remain to some degree. This can be seen in Fig. \ref{fig:21cmDegen_wTau}, where we show Fisher matrix projections for parameter constraints on $T_\textrm{vir}$ and $\zeta$. The black contours demarcate the $68\%$ and $95\%$ confidence regions for a hypothetical power spectrum measurement performed by HERA spanning $6 \leq z \leq 9$ at intervals of $\Delta z = 0.1$. These are calculated by first computing power spectrum sensitivities using {\tt 21cmSense}, which are then fed into a Fisher matrix computation identical to that employed in \acl{Cite stuff}, except with fiducial astrophysical parameters set at $(T_\textrm{vir}, R_\textrm{mfp}, \zeta) = (6 \times 10^4\,\textrm{K}, 35\,\textrm{Mpc}, 30)$. These values are chosen to match the best-fit optical depth of $\tau =0.066$ from the \emph{Planck} TT,TE,EE + lowP + lensing + ext dataset. Marginalizing over cosmological parameters as well as $R_\textrm{mfp}$ then gives the contours in Fig. \ref{fig:21cmDegen_wTau}. \acl{Also need to mention how the 1 sigma errors from Planck basically span the entire plot, so even aside from the alignment, having a better $\tau$ isn't going to help us do astrophysics better}
 
 \begin{figure}[!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/21cmDegen_wTau.png}
-	\caption{asdf}
+	\includegraphics[width=0.5\textwidth]{figures/21cmDegen_wTau.pdf}
+	\caption{Forecasted $68\%$ and $95\%$ confidence regions (black ellipses) in the $T_\textrm{vir}$-$\zeta$ parameter space for HERA observations, along with {\tt 21cmFAST}-predicted optical depth $\tau$ (filled color contours). The alignment of the degeneracy directions suggest that uncertainties in astrophysical parameters arising from $21\,\textrm{cm}$ power spectrum measurements are unlikely to seriously compromise one's ability to make highly precise predictions of $\tau$.}
 	\label{fig:21cmDegen_wTau}
 \end{figure}
 
-Fortunately, these residual degeneracies have relatively impact on one's ability to predict $\tau$. Performing a simulation of the ionization field for every point in the parameter space shown in Figure \label{fig:21cmDegen_wTau}, the relevant integral \acl{Reference the equation} can be evaluated to give predictions for $\tau$. The resulting solid color contours in Figure \label{fig:21cmDegen_wTau} are seen to be quite closely aligned to elliptical contours, suggesting that a very precise value for $\tau$ can be obtained from $21\,\textrm{cm}$ measurements even in the face of degeneracies.
+For every point in $T_\textrm{vir}$-$\zeta$ space we also show values for $\tau$, predicted from {\tt 21cmFAST} using the procedure outlined above with cosmological parameters fixed at their fiducial values. Here and in the rest of the paper, we assume that helium is instantaneously reionized at $z = 3$, having argued earlier that uncertainties in helium reionization are negligible. Immediately striking is the way in which contours of constant $\tau$ are roughly aligned with the contours from our power spectrum constraint on $T_\textrm{vir}$ and $\zeta$. This would be bad news if our goal was to use CMB measurements of $\tau$ to place additional constraints on the astrophysical parameters of reionization, since parallel contours mean that the constraints are not complementary, not to mention the fact that the $68\%$ confidence interval on $\tau$ roughly spans the entire color scale of Fig. \ref{fig:21cmDegen_wTau}. However, parallel contours are desirable for the goals of this paper, since they mean that the inherent degeneracies in one's ability to predict reionization parameters from $21\,\textrm{cm}$ power spectrum measurements do not detract from one's ability to make a highly precise prediction of $\tau$.
 
-\item Show $\tau$ predictions for both a WMAP-style redshift and a (probably lower tau) Planck redshift.
-\item Talk about whether a bigger array does much better.
-\end{itemize}
-\subsection{Tau predictions from global signal measurements}
-\begin{itemize}
-\item Show that global signal measurements can get to precisely the quantity we need. But we need to limit the number of degrees of freedom in our fits in order for it to work.
-\item Power spectrum measurements can help to provide a basis for global signal measurements. Show PCA modes for deviations from fiducial signal.
+Fundamentally, this rather fortunate alignment of contours arises because both the $21\,\textrm{cm}$ line and $\tau$ are probes of reionization that are particularly sensitive to the \emph{timing} of the process, but are relatively insensitive to parameter shifts that leave the timing the same. Consider a simultaneous increase in $T_\textrm{vir}$ and $\zeta$, for example. Increasing $T_\textrm{vir}$ means that reionization is driven by more massive galaxies, which are fewer in number. If one correspondingly increases $\zeta$, however, each galaxy within this rarer population will produce more ionizing photons, leaving the timing of reionization roughly unchanged. The result will have little impact on $\tau$, which is only affected by the total column density of free electrons between us and the surface of last scattering, with no regard for whether these free electrons were produced by a large population of faint ionizing sources or a small population of bright sources. As for the power spectrum measurements, previous work \acl{cite} has shown that redshift evolution is one of the principal ways to break astrophysical parameter degeneracies. Combinations of parameter shifts that leave timing unchanged therefore survive as the residual degeneracies seen in Fig. \ref{fig:21cmDegen_wTau}.
+
+Importantly, the similarities between constraints from $\tau$ and those from $21\,\textrm{cm}$  power spectra seem to be generally robust. Switching to \emph{Planck's} TT+lowP dataset and matching its best-fit $\tau$ value of $0.078$ with a fiducial astrophysical parameter set of $(T_\textrm{vir}, R_\textrm{mfp}, \zeta) = (4 \times 10^4\,\textrm{K}, 35\,\textrm{Mpc}, 40)$ we find the same qualitative effects as we did for \emph{Planck's} TT,TE,EE + lowP + lensing + ext dataset
+
+Proceeding with our prediction of $\tau$, it is crucial to incorporate cosmological parameter uncertainties into our estimate (particular those from $\Omega_m$ and $\Omega_b$). As we saw in Sec. \ref{sec:CosmoParamUncertainties}, cosmological parameter uncertainties can induce roughly percent level errors in $\tau$, which will turn out to be a substantial fraction of the error budget in our final predictions. It is thus incorrect to simply integrate over the likelihood contours Fig. \ref{fig:21cmDegen_wTau} against the values of $\tau$, for those values were computed assuming fixed cosmological parameters. It is also essential to go beyond the approach of Sec. \ref{sec:CosmoParamUncertainties}, where our assumption of instantaneous reionization meant that cosmological parameters only entered ``geometrically" via the prefactors of Eqs. \eqref{eq:tauH} and \eqref{eq:tauHe}. In our more detailed treatment here, we expect $\overline{x_\textrm{HII} (1+\delta_b)}$ to also depend on cosmological parameters.
+
+Suppose we define a function $\tau_\textrm{sim} (\mathbf{p})$ that returns the value of $\tau$ from our simulations given a set of parameters $\mathbf{p}$. In this paper, we will pick the three reionization parameters described above plus the base $\Lambda$CDM parameters used by \emph{Planck} minus $\tau$, i.e., $\mathbf{p}~=~\left[ \Omega_b h^2, \Omega_c h^2, 100\theta_\textrm{MC}, \ln ( 10^{10} A_s), n_s, T_\textrm{vir}, R_\textrm{mfp}, \zeta \right]$, where $\Omega_c$ is the normalized cold dark matter density, $A_s$ is the amplitude of the primordial curvature power spectrum, and $n_s$ is the scalar spectral index. In general, $\tau_\textrm{sim}$ is a complicated function of $\mathbf{p}$, and it is computationally impractical to evaluate it directly in (for example) a likelihood analysis.\footnote{Recent efforts in \acl{cite Brad and Andrei} have shown that full Bayesian analyses are viable if only astrophysical parameters are varied. However, incorporating cosmological parameter variations into such analyses will require further speed-ups of semi-analytic simulations.}  In practice, however, it is sufficient to simply linearize the relation, since we need not understand how $\tau_\textrm{sim}$ varies over all possible parameter values. Instead, it is only necessary to consider variations induced by perturbations within the narrow ranges of cosmological parameters allowed by \emph{Planck} and astrophysical parameters in soon-to-exist $21\,\textrm{cm}$ results. Degeneracies in the $21\,\textrm{cm}$ results (such as the $T_\textrm{vir}$-$\zeta$ degeneracy discussed above) are of little concern since we have shown that such degeneracies have little effect on $\tau$. Fitting numerical results to a linear relation, we find
+\begin{eqnarray}
+\label{eq:TTlowP_linearTau}
+\tau_\textrm{sim}^\textrm{TT+lowP} \approx &&\, 0.078 + 0.042 \left(\frac{\Delta\Omega_b h^2}{0.02222}\right) +  0.11\left(\frac{\Delta\Omega_c h^2}{0.1197}\right) \nonumber\\
+&& -0.0074 \left(\frac{\Delta100\theta_\textrm{MC}}{1.04085}\right)  + 0.22  \left(\frac{\Delta\ln (10^{10} A_s)}{3.089}\right)\nonumber \\
+&& + 0.27 \left(\frac{\Delta n_s}{0.9655}\right) -0.018\left(\frac{\Delta T_\textrm{vir}}{4 \times 10^4\,\textrm{K}}\right)\nonumber \\
+&& -0.0011 \left(\frac{\Delta R_\textrm{mfp}}{35\,\textrm{Mpc}}\right) + 0.020 \left(\frac{\zeta}{40\,\textrm{Mpc}}\right)
+\end{eqnarray}
+for the fiducial model based on \emph{Planck's} TT+lowP dataset , and
+\begin{eqnarray}
+\label{eq:TTTEEE_linearTau}
+\tau_\textrm{sim}^\textrm{TT,TE,\dots} \approx &&\, 0.064 + 0.033  \left(\frac{\Delta\Omega_b h^2}{0.02230}\right) + 0.088\left(\frac{\Delta\Omega_c h^2}{0.1188}\right) \nonumber\\ 
+&&  -0.0075 \left(\frac{\Delta100\theta_\textrm{MC}}{1.04093}\right) +   0.18\left(\frac{\Delta\ln (10^{10} A_s)}{3.064}\right)\nonumber \\
+&& +   0.21 \left(\frac{\Delta n_s}{0.9667}\right)  -0.017 \left(\frac{\Delta T_\textrm{vir}}{6 \times 10^4\,\textrm{K}}\right)\nonumber \\
+&& -0.00099 \left(\frac{\Delta R_\textrm{mfp}}{35\,\textrm{Mpc}}\right) +  0.018 \left(\frac{\zeta}{30\,\textrm{Mpc}}\right)
+\end{eqnarray}
+for the fiducial model based on \emph{Planck's} TT,TE,EE + lowP + lensing + ext dataset. Drawing $50$ random samples from the final likelihood function (derived at the end of this section) obtained from combining $21\,\textrm{cm}$ data with CMB data, we find that the maximum error in our linear approximation for $\tau$ to be $0.6\%$, and the mean error to be $0.2\%$. In both expressions, the notation $\Delta p$ signifies the perturbation of parameter $p$ about its fiducial value. Since we have (arbitrarily) scaled each perturbation to the fiducial parameter values, the coefficients of each term in these relations can be interpreted as the change induced in $\tau$ per fractional shift in parameter values. Examining the relative magnitudes of these coefficients, one sees yet more evidence that cosmological parameters can have a significant effect on a $\tau$ prediction.
+
+Eliminating $\theta_\textrm{MC}$ in favor of $h$, one obtains
+\begin{equation}
+\tau_\textrm{sim}^\textrm{TT+lowP} \approx 0.078  -0.0015 \left(\frac{\Delta h}{0.6731}\right) + \dots 
+\end{equation}
+and
+\begin{equation}
+\tau_\textrm{sim}^\textrm{TT,TE,\dots} \approx 0.064  -0.0015 \left(\frac{\Delta h}{0.6774}\right) + \dots ,
+\end{equation}
+where we have omitted other terms because their coefficients change by very small amounts (as is the case with $\Omega_b h^2$ and $\Omega_c h^2$) or not at all because they are unrelated to $\theta_\textrm{MC}$ (as with all the other parameters). We see that our calculated $\tau$ depends only very weakly on $h$. At first sight, this may seem surprising, given that Eqs. \eqref{eq:tauH} and \eqref{eq:tauHe} appear to be proportional to $h$. This line of reasoning would erroneously lead to the conclusion that the fractional error on $\tau$ is equal to the fractional error on $h$, which is larger than what is seen here. To understand this discrepancy, note that if we temporarily return (for the sake of simplicity) to the assumption that reionization happens instantaneously reionization at $z_\textrm{ion}$, and further make the approximation that $\Omega_\Lambda \ll \Omega_m (1+z)^3$ for $z \approx z_\textrm{ion}$, the integrals in Eqs. \eqref{eq:tauH} and \eqref{eq:tauHe} can be evaluated analytically. The prefactor of our expression for $\tau$ then becomes $\tau \propto \Omega_b h^2(\Omega_m h^2)^{-1/2}$ to leading order. Now, recall that $\Omega_b h^2$ and $\Omega_m h^2$ are proportional to physical energy densities and hence are combinations that are directly constrained by the CMB. As a lone parameter, $h$ therefore enters only at higher order, or in the detailed astrophysics of $\overline{x_\textrm{HII} (1+\delta_b)}$ and $\overline{x_\textrm{HeIII} (1+\delta_b)}$, where its influence is much weaker. This weak dependence is welcome news in our quest to compute $\tau$, since it immunizes our estimate against possible systematic biases in $h$, such as those that are suggested by tensions between \emph{Planck}-derived values of $h$ and those determined from some supernovae measurements \acl{Cite!}.
+
+Ultimately, the goal of a $21\,\textrm{cm}$-derived $\tau$ is not the measurement of $\tau$ itself, but rather, its elimination as a nuisance parameter for cosmological parameter estimation. With our linear relations for $\tau_\textrm{sim}$, we have tight constraints between $\tau$ and other cosmological parameters, considerably sharpening the likelihood function. To obtain some intuition for how a $21\,\textrm{cm}$-derived estimate of $\tau$ may reduce error bars, consider Fig. \ref{fig:degenBreaking}. There we plot a set of pairwise likelihood contours from \emph{Planck's} TT,TE,EE + lowP + lensing + ext dataset, pairing $\tau$ with each of the other cosmological parameters and marginalizing over all other parameters. Overlaid in red are the constraints between each parameter and $\tau$ imposed by Eq. \eqref{eq:TTTEEE_linearTau}, assuming all other parameters are fixed at their fiducial values. Crudely speaking, once a $21\,\textrm{cm}$-derived $\tau$ is folded into one's data analysis, parameter constraints must lie on the slices defined by the red lines, with a small allowance for the fact that uncertainties on the other parameters will cause the lines to become slightly blurry. One sees that in most cases there will be a non-negligible, though small, decrease cosmological parameter errors. The major exception to this is $A_s$. CMB temperature data alone have a strong degeneracy between $A_s$ and $\tau$, and remain largely unchanged if the combination $A_s e^{-2 \tau}$ is kept constant. Polarization and lensing data break this degeneracy to some extent, but there remains some residual effect (as illustrated in Fig. \ref{fig:degenBreaking} by the alignment between the ellipses and the blue line, which is a contour of constant $A_s e^{-2 \tau}$). Though $A_s$ and $\tau$ are also positively correlated in reionization simulations (essentially because larger primordial fluctuations lead to earlier structure formation, and hence earlier reionization and higher $\tau$), the slope of the relation is rather different. We may thus expect errors in $A_s$ to be considerably suppressed by the introduction of $21\,\textrm{cm}$ data.
 
 \begin{figure}[!]
 	\centering
-	\includegraphics[width=0.5\textwidth]{figures/sampled_Tb_cutoff.png}
-	\caption{asdf}
-	\label{fig:sampled_Tb_cutoff}
+	\includegraphics[width=0.45\textwidth]{figures/degenBreaking_planck_TT_TE_EE_lowP_lensing_ext.pdf}
+	\caption{Likelihood contours for $\Lambda$CDM cosmological parameters as defined in the publicly released \emph{Planck} TT,TE,EE + lowP + lensing + ext dataset. Black ellipses show $68\%$ and $95\%$ confidence regions for every parameter against $\tau$. Red lines indicate constant values of $\tau$ as predicted in {\tt 21cmFAST} and approximated by Eq. \eqref{eq:TTTEEE_linearTau}. The blue dashed line in the $\tau$-$\ln(10^{10}A_s)$ plot indicates constant $A_s e^{-2\tau}$, illustrating the strong degeneracy inherent in CMB observations that we expect to be broken by $21\,\textrm{cm}$ observations.}
+	\label{fig:degenBreaking}
 \end{figure}
 
-\begin{figure}[!]
-	\centering
-	\includegraphics[width=0.5\textwidth]{figures/PCA_cutoff.png}
-	\caption{asdf}
-	\label{fig:PCA_cutoff}
-\end{figure}
+To be more quantitative, we may incorporate a $21\,\textrm{cm}$-estimated $\tau$ into our constraints on the parameter set $\mathbf{p}$ by performing a constrained marginalization over $\tau$ to obtain a likelihood function $\mathcal{L} (\mathbf{p})$. In other words, our final likelihood is given by
+\begin{equation}
+\label{eq:ConstrainedOptimization}
+\mathcal{L} (\mathbf{p}) = \int d\tau \, \mathcal{L}_\textrm{expt} ( \mathbf{p}, \tau) \, \delta^D \!\!\left( \tau_\textrm{sim} (\mathbf{p}) - \tau \right),
+\end{equation}
+where $\mathcal{L}_\textrm{expt}$ is the likelihood function of parameters from experiments alone (without the extra information imposed by our self-consistent simulations). In this paper, we will limit ourselves to considering CMB and $21\,\textrm{cm}$ experiments, although in principle, other probes of reionization such as Lyman-alpha observations can be folded into $\mathcal{L}_\textrm{expt}$. Note that without simulations, the $21\,\textrm{cm}$ power spectrum measurements place no direct constraints on $\tau$. The appearance of $\tau$ as an argument of $\mathcal{L}_\textrm{expt}$ is thus purely due to CMB experiments. The Dirac delta function term ties simulations and observations together, requiring that the inferred value for $\tau$ is consistent with the one predicted by inputting all the other cosmological parameters into simulations. Note that the formalism here is a departure from the picture we have painted thus far in the paper. Until now, we have thought of $\tau$ as a parameter to be first determined by $21\,\textrm{cm}$ measurements, and then fed into CMB data analyses to refine constraints on other cosmological parameters. While conceptually tidy, this approach misses the fact that once the errors on other parameters have been brought down, the uncertainties on $\tau$ itself can be reduced once more, since Eqs. \eqref{eq:TTlowP_linearTau} and \eqref{eq:TTTEEE_linearTau} exhibit a non-negligible dependence on cosmological parameters. To account for these complications, our method here is to self-consistently require that the CMB-measured $\tau$ match a value of $\tau$ that is predicted from $21\,\textrm{cm}$ observations.
 
+Moving forward, we will approximate $\mathcal{L}_\textrm{expt.}$ as a correlated higher-dimensional Gaussian, which is equivalent to saying that the forecasts presented in Sec. \ref{sec:CMBresults} will be based on a Fisher matrix formalism. Under the Fisher formalism, the likelihood takes the form
+\begin{eqnarray}
+\mathcal{L}_\textrm{expt} ( \mathbf{p}, \tau) \propto &&\,\, \exp \bigg{[}-\frac{1}{2} \bigg{(}F_{\tau \tau} (\Delta \tau)^2  + \sum_{i \neq \tau} F_{i \tau} \Delta p_i \Delta \tau \nonumber \\
+&& + \sum_{j \neq \tau} F_{\tau j} \Delta p_j \Delta \tau  + \sum_{ij \neq \tau}F_{ij} \Delta p_i \Delta p_j \bigg{ )}\bigg{]}, \qquad
+\end{eqnarray}
+where $\Delta p_i$ and $ \Delta \tau$ are the deviations of $i$th parameter and $\tau$ about their fiducial values, respectively, and coefficients such as $F_{ij}$, $F_{i\tau}$, and $F_{\tau \tau}$ are part of a Fisher matrix $\mathbf{F}$. In the Gaussian approximation, $\mathbf{F}$ is equal to the inverse covariance of $( \mathbf{p},  \tau)$, and is an additive property of two independent experiments. In our case, it may therefore be computed by summing the inverse covariance matrices from \emph{Planck} and the Fisher matrices computed in \acl{cite the last section}.
 
-\begin{figure}[!]
-	\centering
-	\includegraphics[width=0.5\textwidth]{figures/Tb_global_errors.png}
-	\caption{asdf}
-	\label{fig:Tb_global_errors}
-\end{figure}
+Now, evaluating the integral in Eq. \eqref{eq:ConstrainedOptimization} is tantamount to replacing $\tau$ with $\tau_\textrm{sim} (\mathbf{p})$ in this expression. Continuing with the linear approximations to $\tau_\textrm{sim} (\mathbf{p})$ that we employed above, we have
+\begin{equation}
+\Delta \tau = \sum_i a_i \Delta p_i,
+\end{equation}
+where $\{a_i \}$ are coefficients chosen to match our linearized relations, Eqs. \eqref{eq:TTlowP_linearTau} and \eqref{eq:TTTEEE_linearTau}, and substituting this into $\mathcal{L}_\textrm{expt} ( \mathbf{p}, \tau)$ yields another Gaussian likelihood for $\mathcal{L} (\mathbf{p})$, but with modified Fisher matrix elements $F^\prime_{ij}$ given by
+\begin{equation}
+\label{eq:newFisher}
+F^\prime_{ij} = F_{ij} + a_i F_{j \tau} + a_j F_{i \tau} + a_i a_j F_{\tau \tau}.
+\end{equation}
+Once this modified Fisher matrix has been obtained, it can be manipulated in the usual manner to obtain projected uncertainties on parameters. This expression will form the basis of our predictions in the following section, where we forecast the improvement in cosmological constraints from combining \emph{Planck} results with upcoming $21\,\textrm{cm}$ power spectrum measurements from HERA.
 
-\item Some forecasts for constraining these deviation modes. Show different foreground subtraction scenarios.
-\item Point out the fact that by making a direct measurement, we avoid the problem of cosmic variance, since we're essentially measuring ``our" tau, in our branch of the multiverse.
-\end{itemize}
-%\subsection{Tau predictions from imaging experiments}
-%\item As far as predicting tau is concerned, an imaging experiment is just a very high signal-to-noise global signal experiment.
-%\item However, one must be careful because an interferometer does not measure the zero-mode spatially. Need to rely on the assumption that at the relevant redshifts, we are in emission, so the brightness temperature is greater than or equal to zero. This lets us recover the zero-point.
-%\item Perform thermal noise calculation.
-%\item Give tau predictions
+%\begin{itemize}
+%\item What we've seen before is that it's crucial to get the astrophysics right.
+%\item 21cm line is perfect for this, owing to the fact that it probes a lot of the same stuff.
+%\item But, there are two key challenges. First, we need a way to reliably extract the optical depth from the measurements. We also need a way that has a chance observationally.
+%\item Focus here on power spectrum measurements. Relatively high signal to noise and possible available quite soon.
+%\item Of course, power spectrum measurements are not perfect. First, they are imperfect probes of the underlying reionization astrophysics. Second, the astrophysics that they are sensitive to might not be the ``right" astrophysics.
+%\item Show plots showing how these are not really a concern.
+%\item Show equations for computing the update cosmological parameters.
+%\item To make this simple, linearize the simulation output.
+%\item Show how this is in keeping with our use of Fisher matrices.
+%\item Results of the $\tau$ linearization.
 %\end{itemize}
-\subsection{Summary of tau predictions}
-\begin{itemize}
-\item Provide a table summarizing values.
-\end{itemize}
+%
+%
+%As a \emph{direct} probe of the IGM \acl{Make sure acronym is defined before this} at the relevant redshifts, it is unsurprising that one can use $21\,\textrm{cm}$ cosmological surveys to predict $\tau$. After all, $\tau$ and the $21\,\textrm{cm}$ line are both probes of reionization, and thus are sensitive to the same underlying astrophysics. In this section, however, we will argue that the connections between the $21\,\textrm{cm}$ line and $\tau$ are in fact much deeper, allowing the former to predict the latter much better than other probes of reionization can.
+%
+%Consider first the expression for the CMB optical depth, which is given by
+%\begin{equation}
+%\tau = \int  \sigma_T \langle x_e (z) n_\textrm{HI} (z) \rangle dl,
+%\end{equation}
+%where $x_e$ is the free-electron fraction, $n_\textrm{HI}$ is the neutral hydrogen number density, $\sigma_T$ is the Thomson cross-section, $dl$ is the line-of-sight differential element \acl{Check to see if there's a better term for this}, and angle brackets $\langle \cdots \rangle$ denote an average over all sky directions. Importantly, this average does not factor, in the sense that $\langle x_e n_\textrm{HI} \rangle \neq \langle x_e  \rangle \langle n_\textrm{HI}  \rangle$, even though this approximation is frequently seen in the literature. Physically, this arises because there is a non-zero correlation between the ionization field (which governs the distribution of free electrons) and the density field during reionization. For example, in ``inside-out" reionization models, high density regions are ionized first, leading to a positive correlation between the ionization and density fields. Modeling such correlations are crucial to precision predictions of $\tau$.
+%
+%Fortunately, the $21\,\textrm{cm}$ line can be an incisive probe of the relevant correlations. To see this, note that if one ignores peculiar velocities 
+%
+%\section{Tau Predictions}
+%
+%\begin{itemize}
+%\item What does it take to predict tau? Emphasize the point that Jonathan made: it's the density-weighted ionization fraction that counts. So it's more complicated than just integrating an ionization history. Perhaps this would be a good place to add Jonathan's nice plots from global inside-out, outside-in, local... etc.?
+%\end{itemize}
+%
+%Roughly speaking, we envision a multi-stage process for using $21\,\textrm{cm}$ measurements for constraining $\tauc$. First, qualitatively different models are distinguished from one another with coarse measurements of the power spectrum or even higher order statistics \acl{Cite Watkinson and Pritchard}. Having selected a single model out of many, one then uses precision power spectrum measurements to fix free parameters within the model. The correlated ionization and density fields of the model can then be predicted from simulations, and the optical depth estimated. This simulation-derived optical depth may, however, deviate from the ``true" value of $\tauc$ in our Universe because simulations depend on random realizations of density fields. If this ``simulation variance" on $\tauc$ is small enough to be tolerable, one may immediately feed the derived value of $\tauc$ into broader cosmological parameter estimations. On the other hand, if the simulation variance is large, it becomes necessary to directly measure the realization of $\tauc$ that represents our Universe. To do so, we propose using power spectrum measurements to restrict the space of possible reionization histories, enabling a principal component-based parameterization that can then be precisely constrained using a global signal measurement. Through the linearity arguments presented above \acl{Make sure these are included, or discuss them here}, these essentially constitute a direct measurement of the optical depth.
+%
+%\subsection{Tau predictions from power spectrum measurements}
+%\begin{itemize}
+%\item Power spectrum measurements are a rather poor way of doing it, but they're the most promising short-term observable. So we're choosing to take a look at it, even though it's quite model dependent. It'll essentially require tying the measurements to simulations. We assume that large qualitative changes to reionization physics have already been ruled out in an earlier model selection step.
+%\item Talk about the models and why it's ok to ignore spin temperature (basically ionization frac is too low when spin temperature effects are important). But maybe we should quantify this a little.
+%\item Point out the interesting feature where the degeneracies in 21cm don't compromise our ability to predict tau.
+%
+%Of course, no probe of reionization is perfect, and any practical measurement will come with its attendant errors and degeneracies. For example, in \acl{Cite Jonnie and Grieg \& Mesinger} it was shown that except in the extremely high signal-to-noise regime, fits to theoretical model parameters from $21\,\textrm{cm}$ power spectrum measurements are prone to strong degeneracies if performed at a single redshift. Multi-redshift observations break these degeneracies to a great extent, enabling for instance $\sim 10\%$ level constraints \acl{Check numbers} from upcoming instruments like HERA. However, some degeneracy will remain, as evidenced by the elliptical contours shown in Figure \ref{fig:21cmDegen_wTau}, which show some example $68\%$ and $95\%$ confidence regions on $T_\textrm{vir}$ and $\zeta$ constraints. These are derived from Fisher matrix forecasts assuming multi-redshift power spectrum measurements performed by HERA \acl{Specify a lot more what went into this calculation, especially regarding foregrounds}. There is clearly a degeneracy that persists between the two parameter.
+%
+%Fortunately, these residual degeneracies have relatively impact on one's ability to predict $\tau$. Performing a simulation of the ionization field for every point in the parameter space shown in Figure \ref{fig:21cmDegen_wTau}, the relevant integral \acl{Reference the equation} can be evaluated to give predictions for $\tau$. The resulting solid color contours in Figure \ref{fig:21cmDegen_wTau} are seen to be quite closely aligned to elliptical contours, suggesting that a very precise value for $\tau$ can be obtained from $21\,\textrm{cm}$ measurements even in the face of degeneracies.
+%
+%\item Show $\tau$ predictions for both a WMAP-style redshift and a (probably lower tau) Planck redshift.
+%\item Talk about whether a bigger array does much better.
+%\end{itemize}
+%\subsection{Tau predictions from global signal measurements}
+%\begin{itemize}
+%\item Show that global signal measurements can get to precisely the quantity we need. But we need to limit the number of degrees of freedom in our fits in order for it to work.
+%\item Power spectrum measurements can help to provide a basis for global signal measurements. Show PCA modes for deviations from fiducial signal.
+%
+%\begin{figure}[!]
+%\centering
+%\includegraphics[width=0.5\textwidth]{figures/sampled_Tb_cutoff.png}
+%\caption{asdf}
+%\label{fig:sampled_Tb_cutoff}
+%\end{figure}
+%
+%\begin{figure}[!]
+%\centering
+%\includegraphics[width=0.5\textwidth]{figures/PCA_cutoff.png}
+%\caption{asdf}
+%\label{fig:PCA_cutoff}
+%\end{figure}
+%
+%
+%\begin{figure}[!]
+%\centering
+%\includegraphics[width=0.5\textwidth]{figures/Tb_global_errors.png}
+%\caption{asdf}
+%\label{fig:Tb_global_errors}
+%\end{figure}
+%
+%\item Some forecasts for constraining these deviation modes. Show different foreground subtraction scenarios.
+%\item Point out the fact that by making a direct measurement, we avoid the problem of cosmic variance, since we're essentially measuring ``our" tau, in our branch of the multiverse.
+%\end{itemize}
+%%\subsection{Tau predictions from imaging experiments}
+%%\item As far as predicting tau is concerned, an imaging experiment is just a very high signal-to-noise global signal experiment.
+%%\item However, one must be careful because an interferometer does not measure the zero-mode spatially. Need to rely on the assumption that at the relevant redshifts, we are in emission, so the brightness temperature is greater than or equal to zero. This lets us recover the zero-point.
+%%\item Perform thermal noise calculation.
+%%\item Give tau predictions
+%%\end{itemize}
+%\subsection{Summary of tau predictions}
+%\begin{itemize}
+%\item Provide a table summarizing values.
+%\end{itemize}
 
-\section{Improvements in the CMB}
-\subsection{Degeneracy breaking}
-Highlight some specific examples.
-\begin{itemize}
-\item How might it be helpful to no longer have the $A_s$ and $\tau$ degeneracy? Translate the constraints into $\sigma_8$. This is interesting because it'll make it so that the cluster vs. CMB cosmological parameter tension either goes away or becomes statistically significant.
+\section{Cosmological parameters with a $21\,\textrm{cm}$-derived $\tau$ constraint}
+\label{sec:CMBresults}
+
+Having established intuition and a formalism for reducing cosmological parameter uncertainties via $21\,\textrm{cm}$-derived constraints on $\tau$, we now provide some quantitative forecasts. For each of our two selected \emph{Planck} data sets, we add their inverse covariance matrices to tailored $21\,\textrm{cm}$ power spectrum Fisher matrices. These matrices are tailored in the sense that they are centered on a fiducial parameters, chosen so that when input into the {\tt 21cmFAST} simulations, the predicted values of $\tau$ match the best-fit values from the relevant \emph{Planck} datasets. We then evaluate Eq. \eqref{eq:newFisher} using either Eq. \eqref{eq:TTlowP_linearTau} or Eq. \eqref{eq:TTTEEE_linearTau}, giving final Fisher matrices that we invert to obtain final covariance matrices.
+
+Table \ref{tab:AstroParams} lists the marginalized $68\%$ limits on the astrophysical parameters that describe reionization in our model, showing the error bars that can be expected from combining \emph{Planck} priors on cosmological parameters with $21\,\textrm{cm}$ power spectrum measurements, as well as those from additionally requiring self-consistency between the CMB-measured $\tau$ and a $21\,\textrm{cm}$-informed estimate from semi-analytic simulations. Comparing the two sets of error estimates, one sees that as far as astrophysical parameters are concerned, there is little to be gained from the consistency constraint. This is to be expected from our earlier discussion of Fig. \ref{fig:21cmDegen_wTau}, where we saw that the alignment of parameter degeneracy directions meant that incorporating $\tau$ was unlikely to improve one's astrophysical parameter constraints.
+
+\begin{table}
+\caption{\label{tab:AstroParams} Fiducial values and marginalized $68\%$ confidence intervals for astrophysical parameters, within reionization scenarios tuned to fit the \emph{Planck} TT+lowP and TT,TE,EE + lowP + lensing + ext datasets. In each case, astrophysical and cosmological parameters were constrained simultaneously, \emph{Planck} results imposed as a prior on the latter. The ``Errors from $P_{21}(k)$" are reproduced from \acl{cite myself} and constitute forecasted errors from HERA using power spectrum measurements only. The final column shows the errors that result from also requiring that the parameters self-consistently reproduce $\tau$ in semi-analytic simulations. Imposing self-consistency in $\tau$ has a negligible effect on astrophysical parameters, as one expects from Fig. \ref{fig:21cmDegen_wTau}.}
+\begin{ruledtabular}
+\begin{tabular}{llll}
+\multicolumn{4}{c}{   \textbf{\emph{Planck} TT+lowP priors} }  \\
+& Fid. value & Errors from  $P_{21} (k)$ & $+21\,\textrm{cm}$ $\tau$\\
+\hline
+$T_\textrm{vir} \left[ \textrm{K} \right]$ \dotfill & $40000$ & $\pm 9600$ & $\pm 9200$\\
+$R_\textrm{mfp}\left[ \textrm{Mpc} \right]$ \dots \dotfill & $35.0$ & $\pm6.0$ & $\pm6.0$ \\
+$\zeta$ \dotfill& $40.0$ & $\pm 1.1$ & $\pm 0.96$\\
+\hline 
+\multicolumn{4}{c}{    \textbf{\emph{Planck} TT,TE,EE + lowP + lensing + ext priors} }  \\
+& Fid. value & Errors from  $P_{21} (k)$  & $+21\,\textrm{cm}$ $\tau$\\
+\hline
+$T_\textrm{vir}\left[ \textrm{K} \right]$  \dotfill & $60000$ & $\pm 4000$ & $\pm 4000$ \\
+$R_\textrm{mfp}\left[ \textrm{Mpc} \right]$ \dots \dotfill & $35.0$ & $\pm1.6$ & $\pm1.5$ \\
+$\zeta$ \dotfill& $30.0$ & $\pm 0.28$ & $\pm 0.25$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+In contrast, Table \ref{tab:CosmoParams} shows that there are some improvements to cosmological parameters. While some parameters ($100 \theta_\textrm{MC}$ being the best example) are already known to such precision with \emph{Planck} that the addition of $21\,\textrm{cm}$ information does little to reduce errors, others do show improvement. In general, a better performance is obtained when the fiducial parameters are chosen to match the \emph{Planck} TT,TE,EE + lowP + lensing + ext dataset than when they are based on the \emph{Planck} TT+lowP dataset. For example, by adding $21\,\textrm{cm}$ power spectrum measurements and our $\tau$ self-consistency constraint to \emph{Planck} priors, the former dataset sees a $\sim 30\%$ reduction in errors on $H_0$, $\Omega_\Lambda$, and $\Omega_m$, whereas there is negligible improvement with the latter dataset. This is because the \emph{Planck} TT,TE,EE + lowP + lensing + ext parameters imply a lower redshift of reionization, which shifts the most non-trivial features in the evolution of the $21\,\textrm{cm}$ power spectrum to higher frequencies. There, both foregrounds and instrumental noise are smaller in amplitude, allowing high-significance measurements of the power spectrum that are more effective at breaking parameter degeneracies.
+
+\begin{table*}
+\caption{\label{tab:CosmoParams} Fiducial values and marginalized $68\%$ confidence intervals for astrophysical parameters, within reionization scenarios tuned to fit the \emph{Planck} TT+lowP and TT,TE,EE + lowP + lensing + ext datasets. The ``Errors" columns show error bars using \emph{Planck} data only, ``$+P_{21} (k)$" includes $21\,\textrm{cm}$ power spectrum information (reproduced from \acl{cite myself}), and ``$+21\,\textrm{cm}$ $\tau$" also requires self-consistency between the CMB-measured $\tau$ and the $21\,\textrm{cm}$-predicted $\tau$. Boldfaced entries represent substantial reductions in error (arbitrarily defined as a halving or more of error bars) compared to using \emph{Planck} data only.}
+\begin{ruledtabular}
+\begin{tabular}{lllllcllll}
+ & \multicolumn{4}{c}{\textbf{\emph{Planck} TT + lowP}} && \multicolumn{4}{l}{\textbf{ \emph{Planck} TT,TE,EE + lowP + lensing + ext}  } \\
+ & Best fit & Errors &  $+P_{21} (k)$ &$+21\,\textrm{cm}$ $\tau$&& Best fit & Errors &  $+P_{21} (k)$ &  $+21\,\textrm{cm}$ $\tau$\\
+\hline
+\multicolumn{7}{l}{Measured parameters} \\
+$\Omega_b h^2$ \dotfill & $0.02222 $&$ \pm 0.00023$ & $\pm 0.00021$ &  $\pm 0.00021$ && $0.02230 $&$\pm 0.00014$ & $\pm 0.00012$ &  $\pm 0.00012$ \\
+$\Omega_c h^2$ \dotfill & $0.1197$&$ \pm 0.0022$  & $\pm 0.0021$ &  $\pm 0.0020$ && $0.1188$&$ \pm 0.0010$ & $\pm 0.00091$ &  $\pm 0.00072$ \\
+$100 \theta_\textrm{MC}$\dotfill  & $1.04085 $&$\pm 0.00047$ & $\pm 0.00046$ &  $\pm 0.00046$ & &$1.04093 $&$\pm 0.00030$ & $\pm 0.00029$ & $\pm 0.00029$ \\
+$\ln ( 10^{10} A_s) $ \dotfill & $3.089 $&$\pm 0.036$ & $\pm 0.028$ &  $\mathbf{\pm 0.0092}$ & &$3.064$&$ \pm 0.023$ & $\pm 0.013$ & $\mathbf{\pm 0.0057}$  \\
+$ n_s $\dotfill  & $ 0.9655$&$ \pm 0.0062$ & $\pm 0.0059$ &  $\pm 0.0056$ && $0.9667$&$ \pm 0.0040$ & $\pm 0.0036$ &  $\pm 0.0036$ \\
+$ \tau $ \dotfill & $0.078 $&$\pm 0.019$ & $\pm 0.015$ &  ---  && $0.066 $&$\pm 0.012$ & $\pm 0.0075$ &  --- \\
+\hline
+\multicolumn{7}{l}{Derived parameters} \\
+$ \tau $\dotfill  & --- & ---  & --- & $ \mathbf{\pm 0.0046}$ &&---  & ---  & ---& $ \mathbf{\pm 0.0015}$ \\
+$H_0 \left[ \textrm{km}\,\textrm{s}^{-1}\textrm{Mpc}^{-1}\right] \dots$ \dotfill & $67.31 $&$\pm 0.96$ & $\pm0.93$ &  $\pm 0.88$ && $67.74 $&$\pm 0.46$ & $\pm 0.41$ &  $\pm 0.34$ \\
+$\Omega_\Lambda$ \dotfill & $0.685 $&$\pm 0.013$ &  $ \pm 0.013$ &  $\pm 0.012$ && $0.6911$& $ \pm 0.0062$ & $\pm 0.0054$ &  $\pm 0.0043$ \\
+$\Omega_m$ \dotfill & $0.315$& $ \pm 0.013$ &   $ \pm 0.013$ & $\pm 0.012$ && $0.3089 $&$\pm 0.0062$ &   $\pm 0.0054$  &$\pm 0.0043$ \\
+$\sigma_8$ \dotfill & $0.829$&$ \pm 0.014$ & $\pm 0.011$  & $\mathbf{\pm 0.0065}$ && $0.8159$& $ \pm 0.0086$ & $\mathbf{\pm 0.0039}$ &  $\mathbf{\pm 0.0026}$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+In our formalism, $\tau$ is marginalized out of our set of parameters in a self-consistent manner. It is for this reason that $\tau$ appears as a measured parameter in Table \ref{tab:CosmoParams} prior to our inclusion of $21\,\textrm{cm}$ $\tau$ information, but only as a derived parameter afterwards. To estimate errors on $\tau$, one may draw random samples of our parameters $\mathbf{p}$ from the final likelihood $\mathcal L (\mathbf{p})$ given by Eq. \eqref{eq:ConstrainedOptimization}. Samples of $\tau$ may then be obtained by inserting these randomly drawn parameters into our linearized relations for $\tau$, Eqs. \eqref{eq:TTlowP_linearTau} and \eqref{eq:TTTEEE_linearTau}, and uncertainties on $\tau$ can be estimated by examining the spread of these samples. For \emph{Planck} TT+lowP, the $1\sigma$ error on $\tau$ is $\pm 0.0046$. If we artificially fix the astrophysical parameters in our drawing of $\mathbf{p}$, we find that this error drops to $\pm 0.0014$. On the other hand, keeping cosmological parameters fixed results in an error of $\pm 0.0042$. (Note that the two contributions to the error are significantly correlated and are not independent, so one should not expect to be able to sum them in quadrature to recover the total error). We see that while uncertainty from astrophysics remains the dominant source of error even with the inclusion of $21\,\textrm{cm}$ information, the uncertainty arising from cosmological parameter uncertainty is non-negligible. Also noteworthy is the fact that the cosmological error contribution is larger than we estimated in Sec. \ref{sec:CosmoParamUncertainties}, where we considered only the geometric influence of cosmological parameters. This justifies our inclusion of cosmological parameter uncertainties in the semi-analytic simulations of reionization. The results are qualitatively similar with the \emph{Planck} TT,TE,EE + lowP + lensing + ext dataset; varying cosmological parameters only gives a spread of $\pm 0.00068$ in $\tau$, whereas varying astrophysical parameters only yields an error of $\pm 0.0011$.
+
+As expected from Fig. \ref{fig:degenBreaking}, the inclusion of $21\,\textrm{cm}$ information most benefits our constraints on $A_s$, since an independent constraint on $\tau$ breaks the CMB degeneracy where changes in the combination $A_s e^{-2\tau}$ are difficult to detect. For both \emph{Planck} datasets, an error reduction of about a factor of four is achieved in the quantity $\ln (10^{10} A_s)$. Shown in Fig. \ref{fig:AsTau_w21cm} are the $68\%$ and $95\%$ confidence regions on the $\tau$-$\ln (10^{10} A_s)$ plane for the \emph{Planck} TT,TE,EE + lowP + lensing + ext dataset. (The results for \emph{Planck} TT+lowP are qualitatively similar). One clearly sees that the $A_s e^{-2\tau}$ degeneracy is strongly broken.
 
 \begin{figure}[!]
-	\centering
-	\includegraphics[width=0.5\textwidth]{figures/AsTau_w21cm.png}
-	\caption{asdf}
-	\label{fig:AsTau_w21cm}
+\centering
+\includegraphics[width=0.5\textwidth]{figures/AsTau_w21cm.pdf}
+\caption{Likelihood contours on the $\tau$-$\ln (10^{10} A_s)$ plane, with bold lines signifying $95\%$ confidence regions and light lines signifying $68\%$ confidence regions. Blue contours denote the constraints using \emph{Planck} TT,TE,EE + lowP + lensing + ext data only, while the red contours show the effect of adding $21\,\textrm{cm}$ power spectrum and---crucially---self-consistency between the CMB-measured and $21\,\textrm{cm}$-predicted $\tau$. The $21\,\textrm{cm}$ observations break the CMB degeneracy between $A_s$ and $\tau$, enabling much better constraints on both parameters.}
+\label{fig:AsTau_w21cm}
 \end{figure}
 
-\item What about B-modes? Reionization bump predictions need $\tau$, so consistency tests are helped by 21cm. Also discuss Mortonson \& Hu (2008) and how inflationary parameters are biased if reionization not modeled correctly.
-\acl{Ok, it turns out that the main degeneracy is between $r$ and $n_t$. It's true that $\tau$ is also degenerate with these parameters, but the degeneracy is sub-dominant compared to the one between $n_t$ and $r$. So improving $\tau$ does not really improve the bottom line for consistency-relation tests, since our knowledge of $\tau$ isn't the limiting factor.}
-\end{itemize}
+Better constraints on $A_s$ can potentially benefit cosmological analyses in a number of ways. One potential application of a more precisely determined $A_s$ is in CMB lensing. Currently, \emph{Planck} is able to measure the amplitude of the power spectrum $C_\ell^{\phi \phi}$ of the lensing potential $\phi$ to better than $2.5\%$. Remarkably, this is more precise than the theoretical prediction of the same quantity, which has an uncertainty of $3.6\%$. This uncertainty is due mainly to uncertainties in $A_s$. To deal with this, the \emph{Planck} team introduced an extra free parameter $A_L^{\phi \phi}$ to scale the theory lensing trispectrum. With better information on $A_s$ from $21\,\textrm{cm}$ observations and a self-consistent $\tau$, this parameter may not be necessary in future analyses, although a thorough investigation of such a possibility is beyond the scope of this paper.
 
-\section{Predictions for $x_{HI}$}
-Mention how even thought it's not $x_{HI}$ that's directly relevant for $\tau$, the same measurements mentioned earlier might provide a way to probe the ionized fraction (particularly the power spectrum measurements).
-\begin{itemize}
-\item Show some projections for $x_{HI}$.
-\item Talk about how this can be very complementary to optical/IR measurements.
-\end{itemize}
+To interface with the large scale structure literature, it is helpful to express the normalization of the power spectrum not in terms of $A_s$, but in terms of $\sigma_8$, the root-mean-square of matter fluctuations in $8\,h^{-1}\textrm{Mpc}$ spheres at the present day, assuming linear perturbation theory. Explicitly, this is given by
+\begin{equation}
+\sigma_8^2 = \int_0^\infty \frac{k^2 dk}{2 \pi^2} P_m (k) \left[ \frac{3 j_1 (kR)}{kR}\right]^2 \equiv \int_0^\infty dk \,g(k),
+\end{equation}
+where $R= 8\,h^{-1}\textrm{Mpc}$, $P_m(k)$ is the matter power spectrum at $z=0$ in linear theory, $j_1$ is the first order spherical Bessel function of the first kind, and we define $g(k)$ to be the integrand of the $\sigma_8^2$ integral for later convenience.
+
+\begin{figure}[!]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/omegamsigma8.pdf}
+\caption{Likelihood contours on the $\Omega_m$-$\sigma_8$ plane, with bold lines signifying $95\%$ confidence regions and light lines signifying $68\%$ confidence regions. Blue contours denote the constraints using \emph{Planck} TT+lowP data only, while red incorporates $21\,\textrm{cm}$ power spectrum and self-consistent $\tau$ information. In orange are constraints from combining \emph{Planck's} SZ cluster counts, BAO, and BBN (as published in \acl{Cite}), using a CMB lensing-calibrated prior on the cluster mass bias factor. In green are projected constraints (again, reproduced from \acl{Cite}) that the bias can be calibrated to $\sim1\%$ in the future. The addition of $21\,\textrm{cm}$ information can sharpen (or alleviate) tensions between primary CMB constraints and those from galaxy clusters.}
+\label{fig:omegamsigma8}
+\end{figure}
+
+In Fig. \ref{fig:omegamsigma8}, we translate our parameter constraints into constraints on $\Omega_m$ and $\sigma_8$. Shown in blue are the $68\%$ and $95\%$ likelihood contours from the original \emph{Planck} TT+lowP dataset, while the red contours show the improvement from adding $P_{21} (k)$ and our $\tau$ constraints. In addition to a general shrinking of the errors, one also sees a reorientation of the likelihood contours. Whereas the errors in $\sigma_8$ and $\Omega_m$ are largely independent of each other using \emph{Planck} data alone, this is not the case once $21\,\textrm{cm}$ information is included. To understand why this occurs, recall that computing $\sigma_8$ requires integrating the \emph{present-day} matter power spectrum. It thus depends not only on the primordial fluctuation amplitude $A_s$, but also on the evolution of perturbations, which depends on parameters such as $\Omega_m$. In the case of the \emph{Planck} data alone, the error on $\sigma_8$ is dominated by the error on $A_s$, which masks the dependence on other parameters. With the reduction of errors on $A_s$ brought about by the $21\,\textrm{cm}$ $\tau$ constraints, uncertainties in perturbation growth become important, leading to correlations between $\sigma_8$ and $\Omega_m$. We can confirm this interpretation by drawing random samples of cosmological parameters from our likelihood functions, and computing the corresponding matter power spectra for each sample. With these results, one may remove the dependence of $\sigma_8$ on the initial perturbation amplitude---thus isolating the effects of cosmological evolution---by plotting the quantity $g(k) / A_s$. This is done in Fig. \ref{fig:DeltakGeomOverAs} for $2000$ random samples, with each sample color-coded by the value of $\sigma_8$. With \emph{Planck} data only, the colors are randomly distributed, demonstrating that there is no correlation between $\sigma_8$ and cosmological parameters once $A_s$ has been divided out. In contrast, the colors form a clear gradient when $21\,\textrm{cm}$ $\tau$ information is included, suggesting that at least part of the uncertainty in $\sigma_8$ is driven by uncertainties in growth.
+
+\begin{figure}[!]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/DeltakGeomOverAs.pdf}
+\caption{Integrand of $\sigma_8^2$ integral, divided by $A_s$ for $2000$ random samples from the final likelihood function of cosmological parameters using \emph{Planck} TT+lowP data only (top plot) and with the inclusion of $21\,\textrm{cm}$ power spectrum and $\tau$ information (bottom plot). Each curve represents a single random sample, color-coded by the value of $\sigma_8$. The colors are jumbled in the top plot, suggesting that variations in $\sigma_8$ are driven largely by $A_s$ and vanish once $A_s$ as divided out, as we have done here. On the other hand, the colors form a clear gradient in the bottom plot, which suggests that once $21\,\textrm{cm}$ information is included, other parameters also play a systematic role in driving the value of $\sigma_8$.}
+\label{fig:DeltakGeomOverAs}
+\end{figure}
+
+Sharper constraints on $\sigma_8$ have the potential to shed light on current tensions between cosmological constraints derived from the primary CMB and those that are derived from galaxy cluster measurements combined with BAO and BBN \acl{cite}. Aside from our $\Omega_m$-$\sigma_8$ projections, Fig. \ref{fig:omegamsigma8} also shows likelihood contours from galaxy cluster counts of Sunyaev-Zeldovich clusters (shown in orange), using a CMB lensing-based calibration for the mass bias. Here we focus exclusively on the \emph{Planck} TT+lowP dataset in an effort to separate the high redshift constraints on the CMB from the low redshift constraints from clusters. The tension is visually clear, and persists at a reduced level even for alternate gravitational shear-based calibration methods. Given the reduced errors on $\sigma_8$, the addition of $21\,\textrm{cm}$ $\tau$ constraints have the potential to either resolve these tensions or to increase their statistical significance. Such measurements would be particularly powerful if cluster constraints can improve to level indicated by the green contours, which show the \emph{Planck} team's prediction for the performance of cluster cosmology if errors on the mass bias can be improved to one part in $\sim 80$ based on \emph{Euclid} and Large Synoptic Survey Telescope measurements (instead of the $\sim10$ to $20\%$ errors with the current state-of-the-art). If tensions are resolved by these new observations, there will be the potential for highly complementary cosmological constraints between future cluster measurements and $21\,\textrm{cm}$-assisted CMB observations, since the likelihood contours for these two probes can be seen to be near-orthogonal in Fig. \ref{fig:omegamsigma8}. On the other hand, if the tensions remain, their increased statistical significance would hint at the existence of systematics or the need for an extension to \emph{Planck's} six-parameter base model.
+
+\section{Using global signal measurements to derive model-independent $\tau$ constraints}
+\label{sec:GlobalSig}
+
+In the previous section, we saw how $21\,\textrm{cm}$ power spectrum measurements could be used in conjunction with semi-analytic simulations of reionization to place stringent constraints on $\tau$, considerably reducing errors on cosmological parameters in the process. While powerful, the danger in such an approach is that it is rather model-dependent, and requires that the semi-analytic simulations correctly capture the essential features of reionization. In this section, we discuss how direct observations of the $21\,\textrm{cm}$ temperature field (rather than its power spectrum) can provide direct, model-independent constraints on $\tau$.
+
+Ignoring hard-to-measure patchy effects \acl{cite Cora}, $\tau$ is effectively an angularly averaged quantity, with one value across the entire sky. Correspondingly, in an attempt to use direct measurements of the $21\,\textrm{cm}$ brightness temperature to constrain $\tau$, it is not necessary to measure the three-dimensional distribution $\delta T_b (\mathbf{\hat{n}}, \nu)$. Instead, it is sufficient to measure the angularly averaged quantity $\overline{\delta T}_b (\nu)$. This is precisely the domain of ``global signal" experiments, which typically use a small number of elements (often even just single dipole antennas) to measure $\overline{\delta T}_b (\nu)$. If a high significance measurement can be made with such experiments, there will thus be no need to wait for the imaging capabilities of late-stage HERA or the SKA \acl{make sure the acronyms are defined}.
+
+To see how global signal measurements can be used to constrain $\tau$, suppose (for now) that peculiar velocities can be neglected. Further assume that the hydrogen spin temperature is much greater than the CMB temperature, $T_s \gg T_\gamma$. This approximation is expected to be justified towards the middle and end of reionization, when the spin temperature is tightly coupled to the kinetic temperature of the IGM, which is strongly heated by X-rays and/or shocks from filamentary structure \acl{cite}. Under these assumptions, Eq. \eqref{eq:deltaTdef} simplifies to $\delta T_b(\mathbf{\hat{n}}, \nu) \approx \delta T_{b0}\, x_\textrm{HI}  (1 + \delta_b)$. Taking the angular average of this, the resulting global signal $\overline{\delta T}_b (\nu)$ and the density-weighted ionized fraction are seen to be related via a simple linear equation, namely
+\begin{equation}
+\label{eq:globalSigDirect}
+1- \frac{\overline{\delta T}_b (\nu)}{\delta T_{b0}} = \overline{x_\textrm{HII} (1+\delta_b)}.
+\end{equation}
+As we saw in Sec. \ref{sec:astroUncertainties}, the density-weighted ionized fraction is the crucial quantity in an accurate estimate of $\tau$. Whereas power spectrum measurements require model-dependent simulations to infer $\overline{x_\textrm{HII} (1+\delta_b)}$, global signal measurements can do so directly in a model-independent way.
+
+Of course, our claim of model-independence holds only if our assumptions of $T_s \gg T_\gamma$ and negligible peculiar velocities are valid. The spin temperature approximation will almost certainly fail at the beginning of the reionization epoch. This can be seen in the third row of Fig. \ref{fig:Simulations}, where the dashed orange curve shows the global signal approximation (i.e., $1- \overline{\delta T}_b (\nu)/\delta T_{b0}$) to the true density-weighted ionized fraction. Visually, one can see increasing deviations from the true density-weighted ionized fraction as the redshift increases. Unfortunately, rectifying these deviations requires simulating the complicated astrophysics and atomic processes that govern $T_s$, which of course requires a reionization model. The best that we can do is to lower our ambitions, and to restrict our global signal constraints to the lower redshift contributions to $\tau$. Ideally, one would first use the model-dependent power spectrum methods of the previous sections to derive an overall $\tau$ constraint, which could then be checked for consistency against a model-independent estimate of the low-redshift contributions from global signal measurements.
+
+To address the approximation regarding peculiar velocities, let us (temporarily) resort to simulations, and for concreteness, consider only the frequency range $150 < \nu < 200\,\textrm{MHz}$ (corresponding to $6.1<z<8.5$). Again using {\tt 21cmFAST}, we compute $1- \overline{\delta T}_b (\nu) / \delta T_{b0}$ including the peculiar velocity term in Eq. \eqref{eq:deltaTdef} (but still with $T_s \gg T_\gamma$, since we are at relatively high frequencies). We then calculate compare this to $\overline{x_\textrm{HII} (1+\delta_b)}$, computed directly from the simulations, and compare the results. Whether we use fiducial parameters from \emph{Planck's} TT,TE,EE + lowP + lensing + ext dataset or \emph{Planck's} TT+lowP dataset, we find that over the frequency range being considered, the deviations between the two sides of Eq. \eqref{eq:globalSigDirect} are never greater than $\sim 1\%$. Inserting these deviations into Eq. \eqref{eq:tauH} to assess their effects on an estimate of $\tau$, the final fractional perturbation on $\tau$ is only $0.18\%$ for \emph{Planck} TT,TE,EE + lowP + lensing + ext and $0.19\%$ for \emph{Planck} TT+lowP. We will see that such biases are negligible compared to the errors arising from measurement uncertainties in global signal observations (from, say, noise and foregrounds). However, we caution the reader that there are reionization scenarios where Eq. \eqref{eq:tauH} is a much poorer approximation. (Note that although the peculiar velocity field is fundamentally determined by cosmology and not reionization astrophysics, it is correlated with the density field, which in turn has a strong effect on reionization. Changing reionization parameters thus has an effect on the statistical interplay between the density field, the velocity field, and the ionized fraction). Conducting our test of Eq. \eqref{eq:deltaTdef} using not our fiducial parameters but the entire range of reionization parameters shown in Fig. \ref{fig:21cmDegen_wTau}, we find fractional perturbations in $\tau$ of up to $\sim 10\%$. Though this would still allow an improvement upon current \emph{Planck} error bars, such perturbations would be large enough to contribute significantly to the final bias. In practice, one must therefore consider whether Eq. \eqref{eq:deltaTdef} is a good approximation for one's particular best-fit parameters.
+
+Having established that $1- \overline{\delta T}_b (\nu)/\delta T_{b0}$ is a good approximation to $\overline{x_\textrm{HII} (1+\delta_b)}$ for our particular set of parameters, we may substitute Eq. \eqref{eq:globalSigDirect} into Eq. \eqref{eq:tauH}. Limiting our computation of the optical depth to the contribution between $z=0$ and some relatively low redshift $z$ (in keeping our assumption that $T_s \gg T_\gamma$), we obtain
+\begin{eqnarray}
+\tau(z) = &&\frac{H_0 \Omega_b \sigma_Tc}{4 \pi G \Omega_m \mu m_p} \left[ \sqrt{\Omega_\Lambda + \Omega_m (1+z)^3} -1 \right] \nonumber \\
+&&\quad - \frac{16 \sigma_T \nu_0^2 k_B}{3 \hbar c^2 A_{10}} \int_0^z dz^\prime \, \overline{\delta T}_b \sqrt{1+z^\prime},
+\end{eqnarray}
+where it is understood that $\overline{\delta T}_b$ is to be evaluated at frequency $\nu_{21} / (1+z^\prime)$. In deriving this expression, we used Eq. \eqref{eq:TbPrefactor} to express $\delta T_{b0}$ explicitly in terms of fundamental constants, and for the second term only, made the approximation that $\Omega_\Lambda \ll \Omega_m (1+z)^3$. This is an excellent approximation even at the high levels of precision being pursued here, since the approximation becomes bad only at the lowest redshifts, but by then reionization is complete and $\overline{\delta T}_b$ is zero.
+
+The first term in our expression for $\tau(z)$ is the optical depth that would have resulted had our Universe been ionized throughout cosmic history. Conveniently, it takes the same form as Eq. \eqref{eq:exactConstant}, which as we argued in Sec. \ref{eq:Pkformalism}, has errors that are dominated not by the Hubble parameter, but by the much more precisely known combinations $\Omega_b h^2$ and $\Omega_m h^2$. At $z=8.5$, this term has a standard deviation of $4.7\times 10^{-4}$ for \emph{Planck} TT,TE,EE + lowP + lensing + ext and a standard deviation of $8.7 \times 10^{-4}$ for \emph{Planck} TT+lowP, with a central value of $0.063$ for both.
+
+The second term in $\tau(z)$ is a deficit term. It quantifies the deficit in the CMB optical depth that arises because our Universe was neutral for part of its past. Importantly, we see that all cosmological parameters have canceled out of this term, leaving only fundamental constants that can be determined to high precision in a laboratory. Though this cancellation is remarkable, it is not surprising, since the $21\,\textrm{cm}$ brightness temperature is ultimately a direct measurement of the optical depth of clouds of neutral hydrogen at high redshift. This neutral hydrogen optical depth is precisely what sources the deficit in the CMB optical depth. The factor of $\sigma_T  / A_{10} $ in the prefactor of the expression acts as a conversion factor to account for the relatively small cross-section of the $21\,\textrm{cm}$ line compared to that of Thomson scattering.
+
+With cosmological factors canceling out, the only source of error in the deficit term is thus the measurement uncertainty of the global signal $\overline{\delta T}_b$. Computing the variance $(\Delta \tau)^2$ of $\tau(z)$, we have
+\begin{eqnarray}
+\label{eq:DeltaTauDoubleIntegral}
+(\Delta \tau)^2 = &&\left( \frac{16 \sigma_T \nu_0^2 k_B}{3 \hbar c^2 A_{10}} \right)^2 \nonumber \\
+&&\times \int_0^z \! \!\int_0^z dz^\prime dz^{\prime \prime} \Sigma (z^\prime, z^{\prime \prime}) \sqrt{(1+z^\prime) (1+z^{\prime \prime})}, \qquad
+\end{eqnarray}
+where $\Sigma (z^\prime, z^{\prime \prime})$ is the error covariance between measurements of 
+the global signal at redshift $z^\prime$ and $z^{\prime \prime}$
+
+To forecast the performance of our fiducial experiment, then, we require an expression for $\Sigma$. We suppose that the data is analyzed using the methods of \acl{cite myself}. Briefly, we assume that a prior measurement of the $21\,\textrm{cm}$ power spectrum is available, and that these results can be fit to cosmological and astrophysical parameters. Simulations are then run to predict a fiducial global signal history $\overline{\delta T}_b^\textrm{fid} (\nu)$ as well as a plausible set of alternate histories that are allowed within the error bars of the parameters. Forming a covariance matrix of these alternate histories, one may then perform an eigenvalue decomposition to obtain a set of principal component eigenmodes that compactly describe deviations from the fiducial history. The global signal can then be expressed as
+\begin{equation}
+\overline{\delta T}_b (\nu) = \overline{\delta T}_b^\textrm{\,fid} (\nu) + \sum_i^{N_d} a_i d_i (\nu),
+\end{equation}
+where $\overline{\delta T}_b^\textrm{\,fid}$ is the fiducial history, $N_d$ is the number of eigenmodes needed to adequately fit the data, $d_i (\nu)$ is the $i$th deviation eigenmode, and $a_i$ its amplitude. The goal of the global signal measurement is to constrain the set of amplitudes $\{ a_i \}$. The effects of changing the amplitudes of the two strongest modes are shown in Fig. \ref{fig:devEigenmodes} for a fiducial history tuned to match \emph{Planck} TT,TE,EE + lowP + lensing + ext. Importantly, we note that even though our deviation eigenmodes are informed by simulations, our global signal measurement remains model-independent, since large deviations from the fiducial global signal history will simply result in stronger measured deviation amplitudes, and possibly a higher $N_d$.
+
+\begin{figure}[!]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/devEigenmodes.pdf}
+\caption{Fiducial global signal history (black solid lines) chosen to match the fiducial model tied to the \emph{Planck} TT,TE,EE + lowP + lensing + ext dataset. Dashed lines show perturbations about the fiducial history driven by excitations of the deviation eigenmodes (first eigenmode on top plot; second eigenmode on bottom plot) of our power spectrum-informed principal component basis.}
+\label{fig:devEigenmodes}
+\end{figure}
+
+In addition to the deviation mode amplitudes, a global signal experiment must also contend with foreground contamination. Given that the foregrounds are spectrally smooth, we follow previous works \acl{cite} and model them as a sum of $N_p$ Legendre polynomials in $\log \nu$ with a set of foreground amplitudes that are fit alongside the deviation amplitudes. This gives a total of $N_p + N_d$ parameters that are fit for in the analysis of global signal data. To quantify the errors in such fits, we employ the same Fisher matrix formalism that was used in \acl{Cite Morgan}, which was in turn based on the treatments of \acl{Cite Jonathan and Gianni}. Inverting the Fisher matrix to the obtain a covariance and marginalizing over the nuisance foreground amplitudes, we arrive at an $N_d \times N_d$ matrix $\mathbf{C}$ of error covariances on the deviation amplitudes. These can then be converted into a error covariance matrix $\boldsymbol \Sigma$ between different frequency bins by computing
+\begin{equation}
+\boldsymbol \Sigma = \mathbf{D}^t \mathbf{C} \mathbf{D},
+\end{equation}
+where $\mathbf{D}_{ij} = d_i (\nu_j) $. This is essentially the discrete, frequency-space version of $\Sigma ( z, z^\prime)$, the continuous redshift-space covariance that is needed to evaluate Eq. \eqref{eq:DeltaTauDoubleIntegral}. However, the discrete version is sufficient for all intents and purposes, since the deviation eigenmodes can be interpolated and evaluated at whatever frequencies (or redshifts) one desires. With this, Eq. \eqref{eq:DeltaTauDoubleIntegral} can be evaluated to compute the error contribution to $\tau(z)$ from the global signal measurement, which can then be combined in quadrature with the errors from cosmological parameter uncertainties, since the two contributions are independent.
+
+\begin{figure}[!]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/PlanckTTlowP_globalSigErrors.pdf}
+\caption{Fractional error in a global signal measurement of $\tau(z=8.5)$ as a function of the number of foreground parameters $N_p$ and number of signal parameters $N_d$ that are necessary for an adequate fit to the data. A discretized contour of the fractional error on \emph{Planck's} measurement of $\tau$ is given by the thick black line for reference. As long as the number of parameters in a global signal remains small, global signal experiments can provide direct, model-independent constraints on relatively low-redshift portions of $\tau$.}
+\label{fig:PlanckTTlowP_globalSigErrors}
+\end{figure}
+
+\begin{figure}[!]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/PlanckTTTEEElowPlensingext_globalSigErrors.pdf}
+\caption{Similar to Fig. \ref{fig:PlanckTTlowP_globalSigErrors}, but for the \emph{Planck} TT,TE,EE + lowP + lensing + ext  dataset.}
+\label{fig:PlanckTTTEEElowPlensingext_globalSigErrors}
+\end{figure}
+
+In Fig. \ref{fig:PlanckTTlowP_globalSigErrors} and Fig. \ref{fig:PlanckTTTEEElowPlensingext_globalSigErrors} we show the forecasts resulting from our analysis for the \emph{Planck} TT+lowP and \emph{Planck} TT,TE,EE + lowP + lensing + ext  datasets, respectively. Shown in color are the fractional errors in a global signal measurement of $\tau (z=8.5)$. One sees that as long as global signal spectra can be fit with relatively few parameters, small error bars on $\tau(z = 8.5)$ can be attained. These typically compare favorably with fractional errors in $\tau$ from \emph{Planck}, which are denoted by the thick black lines on each plot ($\sim 24\%$ for TT+lowP and $\sim 18\%$ for TT,TE,EE + lowP + lensing + ext). We note, however, that these lines are included for reference purposes only and should be interpreted with caution, since any CMB-derived $\tau$ must necessarily be an integral measurement up to the surface of last scattering. From the perspective of a CMB experiment, it is thus impossible to measure $\tau (z=8.5)$ (the contribution to $\tau$ from $0 < z < 8.5$) using the CMB. Nonetheless, the fractional errors from \emph{Planck} convey the rough sense that global signal measurements have the potential to provide independent and competitive constraints on $\tau$.
+
+%Except in the most favorable foreground scenarios, global signal constraints on $\tau$ typically have larger error bars than those based on the model-dependent $21\,\textrm{cm}$ power spectrum constraints discussed in previous sections. However, the two approaches are highly complementary, given that (as we have shown here) global signal measurements are relatively immune to uncertainties in cosmological parameters (since the parameters only appear as geometric prefactors, rather than in astrophysical modeling), and constitute direct measurements of the optical depth. In practice, then, power spectrum measurements ought to  be used to obtain the best constraints, which can then be checked in a model-
 
 \section{Conclusions}
-Summarize our main points.
+\label{sec:conc}
+
+The optical depth parameter $\tau$ serves a dual role in CMB studies. On one hand, it serves as a crude tool for probing reionization, since the optical depth arises from the scattering of CMB photons off free electrons produced during reionization. On the other hand, it can be viewed as a nuisance parameter that simply needs to be marginalized out, in the process degrading the precision of constraints on other cosmological parameters, particularly $A_s$.
+
+In this paper, we advocate the use of highly redshifted $21\,\textrm{cm}$ observations to provide an independent constraint on $\tau$, thereby breaking parameter degeneracies that arise in CMB data analyses (many of which remain even when complementary probes like galaxy surveys are introduced). We propose two approaches for relating $21\,\textrm{cm}$ observations to $\tau$. Towards the end of the reionization epoch, the complicated astrophysics of the neutral hydrogen spin temperature $T_s$ drops out of the expression for the brightness temperature $\delta T_b$ of the $21\,\textrm{cm}$ line. Measurements of the sky-averaged brightness temperature $\overline{\delta T_b}$ (``global signal measurements") then provide a direct probe of the density-weighted ionized fraction, which can be integrated in redshift to estimate $\tau$. Our forecasts suggest that as along as the observed global signal can be fit without an unreasonably large number of parameters, this technique can be used to provide precision estimates of the lower redshift contributions to $\tau$ (up to, for example, $z \sim 8.5$, but this depends on precisely how reionization proceeds). Provided we limit ourselves to these lower redshift portions of $\tau$ (and provided peculiar velocity effects are small, as appears to be the case in our fiducial models), the resulting global signal estimates of $\tau$ are relatively model-independent and represent an improvement upon the \emph{Planck} constraints.
+
+To compute the full optical depth from $21\,\textrm{cm}$ observations, it is necessary to resort to higher signal-to-noise observations, and here we focus on measurements of the power spectrum $P_{21} (k)$ of $21\,\textrm{cm}$ brightness temperature fluctuations as a function redshift. We envision a scheme where power spectrum measurements are used over a relatively narrow range in redshift (e.g., $6 \le z \le 9$) to constrain reionization parameters. These parameters are then fed into semi-analytic simulations of reionization to predict the density-weighted ionized fraction to high redshifts, which can again be integrated to yield $\tau$. In practice, the simulations themselves depend on cosmological parameters in addition to astrophysical parameters, and to properly account for all uncertainties, parameter estimation must be performed jointly. Under such a scheme, information from the $21\,\textrm{cm}$ line is incorporated by self-consistently requiring the CMB-measured $\tau$ to agree with values of $\tau$ predicted by the $21\,\textrm{cm}$-tuned simulations.
+
+Forecasting the performance of our method for HERA, we find that while parameter errors are reduced for all cosmological parameters with the introduction of $21\,\textrm{cm}$-derived $\tau$ information, the effects are the most pronounced for $A_s$. This arises because of the known degeneracy between $A_s$ and $\tau$ in CMB observations. With HERA, this degeneracy is broken and errors on $\ln (10^{10} A_s)$ decrease by more than a factor of three. Improved measurements of $A_s$ can sharpen (or alleviate) current tensions between cosmological parameters derived from cluster counts and those from primary CMB anisotropies. They may also sharpen theoretical predictions on CMB lensing. Upcoming high signal-to-noise measurements of the $21\,\textrm{cm}$ line from arrays such as HERA and SKA will therefore provide not only a transformative understanding of the astrophysics of reionization, but also the opportunity to further push the frontiers of precision cosmology.
 
 \section*{Acknowledgments}
-
+The authors are delighted to acknowledge helpful discussions with James Aguirre, Asantha Cooray, Clive Dickinson, Steve Furlanetto, Bradley Greig, Daniel Jacobs, Andrei Mesinger, Miguel Morales, Michael Mortonson, Peng Oh, Jonathan Pober, and Eric Switzer.\acl{Add NERSC, CDI, PAPER, Hubble.}
 
 \bibliography{21cmTau}
 
